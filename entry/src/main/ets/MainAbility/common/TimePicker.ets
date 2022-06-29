@@ -1,24 +1,24 @@
 
-export class ElementPosition implements Position
-{
-  x:number;y:number;
-  ElementPosition(x:number,y:number)
-  {
-    this.x=x!=undefined?x:0;
-    this.y=y!=undefined?y:0;
-
-  }
-}
-//@Entry
+//export class ElementPosition implements Position
+//{
+//  x:number;y:number;
+//  ElementPosition(x:number,y:number)
+//  {
+//    this.x=x!=undefined?x:0;
+//    this.y=y!=undefined?y:0;
+//
+//  }
+//}
+@Entry
 @Component
-struct Index {
+struct TimePicker {
   build()
   {
-    Flex({ justifyContent : FlexAlign.SpaceBetween  ,direction:FlexDirection.Column })
+    Flex({ justifyContent : FlexAlign.Center  ,direction:FlexDirection.Column })
     {
       Column()
       {
-        Text("SELECT TIME").fontSize(15).fontColor(Color.Green).alignSelf(ItemAlign.Start)
+        Text("SELECT TIME").fontSize(12).fontColor(Color.Green).alignSelf(ItemAlign.Start)
       }
       .height(28)
       .width(280)

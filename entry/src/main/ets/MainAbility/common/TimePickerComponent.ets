@@ -1,28 +1,29 @@
-import {ClockFaceComponent} from "./ClockFaceComponent"
-import {ClockHandComponent} from "./ClockHandComponent"
-import {TimePickerModel} from "./TimePickerModel"
-@Entry
+import { ClockFaceComponent } from "./ClockFaceComponent"
+import { ClockFaceComponent2 } from "./ClockFaceComponent2"
+import { TimePickerModel } from "./TimePickerModel"
+import {ChipTextInputComboComponent} from "./ChipTextInputComboComponent"
+import {test} from "./../pages/test"
+//@Entry
 @Component
-struct TimePickerComponent {
-  private timePickerModel:TimePickerModel=new TimePickerModel()
-  @State height:number=300
-  @State width: number=300
-  @State rot: number=0
-//  clockRotation:number=this.rotation
-//  aboutToAppear()
-//  {
-//    this.timePickerModel=new TimePickerModel()
-//  }
-  build()
-  {
+export struct TimePickerComponent {
+  //  @State timePickerModel: TimePickerModel= new TimePickerModel()
+  @Link timePickerModel: TimePickerModel
+  @State height: number= 372
+  @State width: number= 280
 
-    Stack()
-    {
-      ClockFaceComponent({timePickerModel:this.timePickerModel})
-      ClockHandComponent({timePickerModel:this.timePickerModel})
+  build() {
+    Column({space:36}) {
+      //      Row(){}
+      //      .width(280)
+      //      .height(80)
+      //      .backgroundColor(Color.Gray)
+      ChipTextInputComboComponent({timePickerModel:$timePickerModel})
+      ClockFaceComponent({ timePickerModel: $timePickerModel })
+      //      ClockFaceComponent2({ timePickerModel: $timePickerModel })
+      //      test({comp:$height})
     }
     .height(this.height)
     .width(this.width)
-    .alignContent(Alignment.Center)
+    //    .backgroundColor(Color.Yellow)
   }
 }

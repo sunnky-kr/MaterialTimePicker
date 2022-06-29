@@ -1,115 +1,181 @@
+import { TimeModel } from "./TimeModel"
+import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./Enums"
 
-export class ElementPosition implements Position
-{
-  x:number;y:number;
-  ElementPosition(x:number,y:number)
-  {
-    this.x=x!=undefined?x:0;
-    this.y=y!=undefined?y:0;
+export class ElementPosition implements Position {
+  x: number;
+  y: number;
 
+  ElementPosition(x: number, y: number) {
+    this.x = x != undefined ? x : 0;
+    this.y = y != undefined ? y : 0;
   }
 }
-export class TimePickerModel
-{
-  rotation :number=0
-  height:number=250
-  width:number=250
-  handLength:number=100
-  handColor: string|Color=Color.Blue
-  jointSize: number=10
-  pointerDiameter:number=50
-  startPoint:number[]
-  endPoint:number[]
-  pointerPosition:ElementPosition=new ElementPosition()
-  //ClockFaceParameters
-  clockFaceDiameter: number=256
-  clockFaceColor:string|Color="#cccccc"
-  elementPositionRadius:number=100
-  elementRadius:number=50
-  numberOfElements:number=12
-//  diameter:number=250
-  selectedElementColor:string | Color=Color.White
-  unselectedElementColor:string | Color=Color.Black
-  elements:string[] | number[]=[]
-  elementPositions : ElementPosition[]=[]
-  elementStates:number[]=[]
-  selectedState:number=0
-  elementColors:(string|Color)[]
 
-  updateStartPoint()
-  {
-    this.startPoint= [this.width/2,this.height/2]
+export class TimePickerModel {
+  ElementOptions: number[][]= [
+    [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
+    [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]]
+  LeastCountOptions: number[]= [30, 15, 6]
+  leastCount: number= 30
+  format: number= ElementFormat.FORMAT_12H
+  rotation: number= 0
+  height: number= 256
+  width: number= 280
+  handLength: number= 100
+  handColor: string | Color= Color.Blue
+  jointSize: number= 10
+  pointerDiameter: number= 50
+  startPoint: number[]
+  endPoint: number[]
+  pointerPosition: ElementPosition= new ElementPosition()
+  //ClockFaceParameters
+  clockFaceDiameter: number= 256
+  clockFaceColor: string | Color= "#cccccc"
+  elementPositionRadius: number= 100
+  elementRadius: number= 50
+  numberOfElements: number= 12
+  //  diameter:number=250
+  selectedElementColor: string | Color= Color.White
+  unselectedElementColor: string | Color= Color.Black
+  elements: number[]= []
+  elementPositions: ElementPosition[]= []
+  elementStates: number[]= []
+  selectedState: number= 0
+  elementColors: (string | Color)[]
+  inputMethod: InputMethod= InputMethod.ClockInputMethod
+  model: TimeModel
+
+  constructor(model:TimeModel=undefined) {
+    if(model==undefined)
+    {
+      this.model = new TimeModel(new Date().getHours(),new Date().getMinutes(), TimeFormat.CLOCK_24H)
+    }
+    else{
+      this.model=model
+    }
   }
-  updateEndPoint()
-  {
-    this.endPoint= [this.width/2+this.handLength*Math.sin((this.rotation*Math.PI)/180),this.height/2-this.handLength*Math.cos((this.rotation*Math.PI)/180)]
+
+  setInputMethod(method: InputMethod) {
+    if (this.inputMethod != method) {
+      this.inputMethod = method
+    }
   }
-  updatePointerPosition()
-  {
-    this.pointerPosition.x=this.endPoint[0]-this.pointerDiameter/2
-    this.pointerPosition.y=this.endPoint[1]-this.pointerDiameter/2
+  getRotation(){
+    if(this.format!=ElementFormat.FORMAT_MINUTE)
+    {
+      return this.model.getHourForDisplay()*this.leastCount
+    }
+    else
+    {
+      return this.model.getMinuteForDisplay()*this.leastCount
+    }
   }
-  update()
-  {
+  updateStartPoint() {
+    this.startPoint = [this.width / 2, this.height / 2]
+  }
+
+  updateEndPoint() {
+    this.endPoint = [this.width / 2 + this.handLength * Math.sin((this.rotation * Math.PI) / 180), this.height / 2 - this.handLength * Math.cos((this.rotation * Math.PI) / 180)]
+  }
+
+  updatePointerPosition() {
+    this.pointerPosition.x = this.endPoint[0] - this.pointerDiameter / 2
+    this.pointerPosition.y = this.endPoint[1] - this.pointerDiameter / 2
+  }
+
+  update() {
     this.updateEndPoint()
     this.updateStartPoint()
     this.updatePointerPosition()
   }
-  setRotation(degrees:number)
+  setFormat(format:ElementFormat)
   {
-    this.rotation=degrees
+    if(this.format!=format)
+    {
+      this.format=format
+      this.elements = this.ElementOptions[format]
+      this.leastCount = this.LeastCountOptions[format]
+      this.setRotation(this.getRotation())
+      this.update()
+      //      this.leastCount=this.LeastCountOptions[format]
+    }
+
   }
-  setHandLength(length:number)
-  {
-    this.handLength=length
+  setRotation(degrees: number,dropped:boolean=false) {
+    //    console.log(-361%360+"")
+    degrees %= 360
+    if (degrees < 0)
+    degrees += 360
+    //    console.log(degrees+"")
+    this.rotation = degrees
+    if(this.format!=ElementFormat.FORMAT_MINUTE)
+    {
+      this.model.setHour(this.elements[Math.round(degrees / this.leastCount)%this.numberOfElements])
+    }
+    else{
+      this.model.setMinute(Math.round(degrees / this.leastCount))
+    }
+    if(dropped)
+    {
+      this.rotation=this.finalRotation(this.rotation)
+    }
   }
-  setHandColor(color:string | Color)
+  finalRotation(degrees:number)
   {
-    this.handColor=color
+    return Math.round(degrees/this.leastCount)*this.leastCount
   }
-  setJointSize(size:number)
-  {
-    this.jointSize=size
+
+  setTime(hour: number, minute: number) {
+    this.model.setHour(hour)
+    this.model.setMinute(minute)
+    this.rotation = this.model.hour * 30 + this.model.minute * 0.5
   }
-  setPointerDiameter(diameter:number)
-  {
-    this.pointerDiameter=diameter
+
+  setHandLength(length: number) {
+    this.handLength = length
   }
-  setHeight(height:number)
-  {
-    this.height=height
+
+  setHandColor(color: string | Color) {
+    this.handColor = color
   }
-  setWidth(width:number)
-  {
-    this.width=width
+
+  setJointSize(size: number) {
+    this.jointSize = size
+  }
+
+  setPointerDiameter(diameter: number) {
+    this.pointerDiameter = diameter
+  }
+
+  setHeight(height: number) {
+    this.height = height
+  }
+
+  setWidth(width: number) {
+    this.width = width
   }
   //Clock Face functions
-  initialize()
-  {
-    if(this.elements.length!=this.numberOfElements)
-    {
-      this.elements=Array(this.numberOfElements).fill(1).map((_,idx)=> idx)
-      this.elements[0]=12
+  initialize(format: ElementFormat=ElementFormat.FORMAT_12H) {
+    this.elements = this.ElementOptions[format]
+    this.leastCount = this.LeastCountOptions[format]
+    this.elementStates = Array(this.numberOfElements).fill(0)
+    if ((this.rotation % 360) % (360 / this.numberOfElements) < 0.01) {
+      this.selectedState = Number(Math.round((this.rotation % 360) / (360 / this.numberOfElements)))
+      this.elementStates[this.selectedState] = 1
     }
-    this.elementStates=Array(this.numberOfElements).fill(0)
-    if((this.rotation%360)%(360/this.numberOfElements)<0.01)
-    {
-      this.selectedState=Number(Math.round((this.rotation%360)/(360/this.numberOfElements)))
-      this.elementStates[this.selectedState]=1
-    }
-    this.elementColors=[this.unselectedElementColor,this.selectedElementColor]
+    this.elementColors = [this.unselectedElementColor, this.selectedElementColor]
     this.updateElementPositions()
   }
-  updateElementPositions()
-  {
-    this.elementPositions=Array(this.numberOfElements).fill(1).map((_,idx)=> {
-      var angle: number=(idx*360*Math.PI)/(180*this.numberOfElements);
-      var pos: ElementPosition=new ElementPosition();
-      pos.x=this.width/2+this.elementPositionRadius*Math.sin(angle)-this.elementRadius/4
-      pos.y=this.height/2-this.elementPositionRadius*Math.cos(angle)-this.elementRadius/4
+
+  updateElementPositions() {
+    this.elementPositions = Array(this.numberOfElements).fill(1).map((_, idx) => {
+      var angle: number = (idx * 360 * Math.PI) / (180 * this.numberOfElements);
+      var pos: ElementPosition = new ElementPosition();
+      pos.x = this.width / 2 + this.elementPositionRadius * Math.sin(angle) - this.elementRadius / 4
+      pos.y = this.height / 2 - this.elementPositionRadius * Math.cos(angle) - this.elementRadius / 4
       return pos
     })
-
-
   }
+
 }
