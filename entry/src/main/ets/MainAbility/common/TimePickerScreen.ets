@@ -1,4 +1,5 @@
 import { TimePickerDisplay } from "./TimePickerDisplay"
+import {TimeFormat} from "./Enums"
 @Entry
 @Component
 struct DemoScreen {
@@ -44,11 +45,14 @@ struct DemoScreen {
 struct TimePickerButton{
   @State hour: string= new Date().getHours()+""
   @State minute: string= new Date().getMinutes()+""
+  @State time:string=this.hour+":"+this.minute
+  //  @State format: ElementFormat=ElementFormat.FORMAT_12H
   width: number=100
   controller: CustomDialogController= new CustomDialogController({
     builder: TimePickerDisplay({
       cancel: this.cancel,
-      confirm: (hour: string, minute: string) => this.submit(hour, minute)
+      confirm: (time: string) => this.submit2(time),
+      format:TimeFormat.CLOCK_12H
     })
   })
   submit(hour: string, minute: string)
@@ -56,13 +60,17 @@ struct TimePickerButton{
     this.hour=hour
     this.minute=minute
   }
+  submit2(time:string)
+  {
+    this.time=time
+  }
   cancel()
   {
     console.log("TimePicker Closed")
   }
   build(){
     Flex({justifyContent : FlexAlign.SpaceBetween}) {
-      TextArea({ placeholder: this.hour + ":" + this.minute }).width(this.width)
+      TextArea({ placeholder: this.time}).width(this.width)
       Button({ type: ButtonType.Capsule }) {
 
         Image($r("app.media.clock")).width(30).height(30)

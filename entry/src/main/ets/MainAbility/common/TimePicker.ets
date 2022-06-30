@@ -1,4 +1,3 @@
-
 //export class ElementPosition implements Position
 //{
 //  x:number;y:number;
@@ -12,41 +11,37 @@
 @Entry
 @Component
 struct TimePicker {
-  build()
-  {
-    Flex({ justifyContent : FlexAlign.Center  ,direction:FlexDirection.Column })
-    {
-      Column()
-      {
+  build() {
+    Flex({ justifyContent: FlexAlign.Center, direction: FlexDirection.Column }) {
+      Column() {
         Text("SELECT TIME").fontSize(12).fontColor(Color.Green).alignSelf(ItemAlign.Start)
       }
       .height(28)
       .width(280)
       .padding(24)
       .backgroundColor(Color.Brown)
-      Column()
-      {
+
+      Column() {
 
       }
       .height(396)
       .padding(24)
       .backgroundColor(Color.Blue)
-      Column()
-      {
+
+      Column() {
 
       }
       .height(52)
       .backgroundColor(Color.Black)
     }
     .width(328)
-    .padding({right:24,left:24,top:0,bottom:0})
+    .padding({ right: 24, left: 24, top: 0, bottom: 0 })
   }
 }
+
 @Component
-struct TimeDisplay
-{
-  build()
-  {
+struct TimeDisplay {
+  build() {
 
   }
 }

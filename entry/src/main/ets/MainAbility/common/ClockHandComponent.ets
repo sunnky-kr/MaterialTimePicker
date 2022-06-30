@@ -18,12 +18,13 @@ export struct ClockHandComponent {
       //      Shape() {
       //      Path().width(this.width).height(this.height).commands("M"+this.height/2+" "+this.width/2+)
       Line()
+        .stroke(this.timePickerModel.handColor)
         .strokeWidth(4)
         .startPoint(this.timePickerModel.startPoint)
         .endPoint(this.timePickerModel.endPoint)
         .height(this.timePickerModel.height)
         .width(this.timePickerModel.width)
-        .fill(this.timePickerModel.handColor)
+        .strokeOpacity(0.5)
 
       Circle({ height: this.timePickerModel.jointSize, width: this.timePickerModel.jointSize })
         .fill(this.timePickerModel.handColor)
@@ -31,7 +32,6 @@ export struct ClockHandComponent {
         .fill(this.timePickerModel.handColor)
         .position(this.timePickerModel.pointerPosition)
         .fillOpacity(0.5)
-
         .onDragStart((event) => {
           //      console.log(event.x+"   "+event.y+"  "+event.screenX+"  "+event.screenY)
           this.timePickerModel.setRotation((180 * Math.atan2(event.getX() - this.timePickerModel.width / 2, -event.getY() + this.timePickerModel.height / 2)) / Math.PI)

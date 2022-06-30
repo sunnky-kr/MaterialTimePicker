@@ -18,7 +18,7 @@ export class TimePickerModel {
     [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]]
   LeastCountOptions: number[]= [30, 15, 6]
   leastCount: number= 30
-  format: number= ElementFormat.FORMAT_12H
+  format: ElementFormat= ElementFormat.FORMAT_12H
   rotation: number= 0
   height: number= 256
   width: number= 280
@@ -46,14 +46,10 @@ export class TimePickerModel {
   inputMethod: InputMethod= InputMethod.ClockInputMethod
   model: TimeModel
 
-  constructor(model:TimeModel=undefined) {
-    if(model==undefined)
-    {
-      this.model = new TimeModel(new Date().getHours(),new Date().getMinutes(), TimeFormat.CLOCK_24H)
-    }
-    else{
-      this.model=model
-    }
+  constructor(hour:number=new Date().getHours(),minute:number=new Date().getMinutes(),format:TimeFormat=TimeFormat.CLOCK_24H) {
+    this.model = new TimeModel(hour,minute,format )
+    this.setRotation(this.getRotation())
+    this.update()
   }
 
   setInputMethod(method: InputMethod) {
@@ -62,6 +58,7 @@ export class TimePickerModel {
     }
   }
   getRotation(){
+    console.log("gR"+this.model.hour)
     if(this.format!=ElementFormat.FORMAT_MINUTE)
     {
       return this.model.getHourForDisplay()*this.leastCount
@@ -89,13 +86,24 @@ export class TimePickerModel {
     this.updateStartPoint()
     this.updatePointerPosition()
   }
+  setClockFormat(format:TimeFormat)
+  {    console.log("scf"+this.model.hour)
+
+       this.model.format=format
+       if(this.format!=ElementFormat.FORMAT_MINUTE)
+       {
+         this.setFormat(format==TimeFormat.CLOCK_24H?ElementFormat.FORMAT_24H:ElementFormat.FORMAT_12H)
+       }
+  }
   setFormat(format:ElementFormat)
   {
+    console.log("sf"+this.model.hour)
     if(this.format!=format)
     {
       this.format=format
       this.elements = this.ElementOptions[format]
       this.leastCount = this.LeastCountOptions[format]
+      console.log("f"+this.model.hour)
       this.setRotation(this.getRotation())
       this.update()
       //      this.leastCount=this.LeastCountOptions[format]
@@ -103,7 +111,7 @@ export class TimePickerModel {
 
   }
   setRotation(degrees: number,dropped:boolean=false) {
-    //    console.log(-361%360+"")
+    console.log("sr"+this.model.hour)
     degrees %= 360
     if (degrees < 0)
     degrees += 360
@@ -111,7 +119,9 @@ export class TimePickerModel {
     this.rotation = degrees
     if(this.format!=ElementFormat.FORMAT_MINUTE)
     {
-      this.model.setHour(this.elements[Math.round(degrees / this.leastCount)%this.numberOfElements])
+      console.log("sf"+this.model.hour+"   "+this.model.getPeriod())
+
+      this.model.setHour(Math.round(degrees / this.leastCount))
     }
     else{
       this.model.setMinute(Math.round(degrees / this.leastCount))
@@ -120,6 +130,7 @@ export class TimePickerModel {
     {
       this.rotation=this.finalRotation(this.rotation)
     }
+    console.log("sr"+this.model.hour)
   }
   finalRotation(degrees:number)
   {
@@ -156,9 +167,9 @@ export class TimePickerModel {
     this.width = width
   }
   //Clock Face functions
-  initialize(format: ElementFormat=ElementFormat.FORMAT_12H) {
-    this.elements = this.ElementOptions[format]
-    this.leastCount = this.LeastCountOptions[format]
+  initialize() {
+    this.elements = this.ElementOptions[this.format]
+    this.leastCount = this.LeastCountOptions[this.format]
     this.elementStates = Array(this.numberOfElements).fill(0)
     if ((this.rotation % 360) % (360 / this.numberOfElements) < 0.01) {
       this.selectedState = Number(Math.round((this.rotation % 360) / (360 / this.numberOfElements)))

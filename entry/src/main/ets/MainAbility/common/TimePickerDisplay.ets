@@ -20,15 +20,22 @@ import {ElementFormat,ClockPeriod,TimeFormat,InputMethod} from "./Enums"
 @CustomDialog
 export struct TimePickerDisplay {
   @State parentModel:TimePickerModel=undefined
+  @State height:number=372
+  @State totalHeight:number =500
+  @State format:TimeFormat=TimeFormat.CLOCK_12H
   timeModel:TimeModel
   controller:CustomDialogController
   cancel:() => void
-  confirm: (hour,minute)=> void
+  //  confirm: (hour,minute)=> void
+  confirm:(time)=>void
   inputSymbol:Resource[]=[$r("app.media.keyboard"),$r("app.media.clock")]
   aboutToAppear()
   {
     //        this.timeModel=new TimeModel()
-    this.parentModel=new TimePickerModel(this.timeModel)
+    this.parentModel=new TimePickerModel(new Date().getHours(),new Date().getMinutes(), this.format)
+    this.height=this.parentModel.inputMethod==InputMethod.TextInputMethod?100:372
+    this.totalHeight=this.parentModel.inputMethod==InputMethod.TextInputMethod?228:500
+    this.parentModel.setClockFormat(this.format)
     //  @State Thour:number=new Date().getHours()
   }
   build()
@@ -46,7 +53,10 @@ export struct TimePickerDisplay {
       .width(280)
       //        .backgroundColor(Color.Brown)
       //        .margin({bottom:24})
-      TimePickerComponent({timePickerModel:$parentModel})
+      Stack() {
+        TimePickerComponent({ timePickerModel: $parentModel, height:$height})
+      }
+      .displayPriority(2)
       Row({space:118})
       {
         Button({type:ButtonType.Normal})
@@ -56,6 +66,12 @@ export struct TimePickerDisplay {
         .height(44)
         .width(44)
         .backgroundColor(Color.White)
+        .onClick(()=>
+        {
+          this.parentModel.inputMethod=1-this.parentModel.inputMethod
+          this.height=this.parentModel.inputMethod==InputMethod.TextInputMethod?100:372
+          this.totalHeight=this.parentModel.inputMethod==InputMethod.TextInputMethod?228:500
+        })
         Row({space:8})
         {
           Button("CANCEL")
@@ -79,7 +95,7 @@ export struct TimePickerDisplay {
             .fontColor(Color.Gray)
             .onClick(()=>
             {
-              this.confirm(this.parentModel.model.formattedHour(),this.parentModel.model.formattedMinute())
+              this.confirm(this.parentModel.model.getTimeForDisplay())
               this.controller.close()
             })
         }
@@ -93,6 +109,7 @@ export struct TimePickerDisplay {
       //      .backgroundColor(Color.Black)
     }
     .width(328)
+    .height(this.totalHeight)
     .padding(0)
     .alignItems(HorizontalAlign.Center)
   }

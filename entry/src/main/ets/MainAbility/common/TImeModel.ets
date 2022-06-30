@@ -26,7 +26,9 @@ export class TimeModel
     }
     else
     {
+      console.log("sh"+this.hour)
       this.hour=hour%12+(this.period==ClockPeriod.PM?12:0)
+      console.log("sh"+this.hour)
     }
   }
   public setHourOfDay(hour:number)
@@ -37,6 +39,7 @@ export class TimeModel
   }
   public getHourForDisplay()
   {
+    console.log("ghfd"+this.hour)
     if(this.format==TimeFormat.CLOCK_24H){
       return this.hour%24}
     if((this.hour%12)==0){
@@ -57,18 +60,28 @@ export class TimeModel
   {
     return String(this.getMinuteForDisplay()).padStart(2,'0')
   }
-
   public setMinute(minute:number)
   {
     this.minute=minute%60
   }
+  public getTimeForDisplay()
+  {
+    var period:string=this.format==TimeFormat.CLOCK_12H?" "+this.getPeriod():""
+    console.log(""+this.format)
+    return this.formattedHour()+":"+this.formattedMinute()+period
+  }
+  public getPeriod()
+  {
+    return this.period==ClockPeriod.AM?"AM":"PM"
+  }
+
   //  public setSeconds(second:number)
   //  {
   //    this.seconds=second%60
   //  }
   public setPeriod(period:ClockPeriod)
   {
-    if(this.period!=period)
+    if(this.format==TimeFormat.CLOCK_12H && this.period!=period)
     {
       this.period=period
       if(this.hour<12 && period==ClockPeriod.PM)
