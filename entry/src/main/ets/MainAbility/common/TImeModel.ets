@@ -1,22 +1,17 @@
-//import {TimePickerModel} from "./TimePickerModel"
-import {ElementFormat,ClockPeriod,TimeFormat,InputMethod} from "./Enums"
+import {ClockPeriod,TimeFormat} from "./Enums"
 
 export class TimeModel
 {
   hour :number
   minute : number
-  //  seconds : number
   period:ClockPeriod
   format:TimeFormat
-  //  timePickerModel: TimePickerModel
-  constructor(hour:number,minute : number,  format:TimeFormat)//,  timePickerModel: TimePickerModel)
+  constructor(hour:number,minute : number,  format:TimeFormat)
   {
     this.format=format
     this.setHour(hour)
     this.setMinute(minute)
-    //    this.seconds=seconds
     this.setHourOfDay(hour)
-    //    this.timePickerModel=timePickerModel
   }
   public setHour(hour:number)
   {
@@ -26,9 +21,7 @@ export class TimeModel
     }
     else
     {
-      console.log("sh"+this.hour)
       this.hour=hour%12+(this.period==ClockPeriod.PM?12:0)
-      console.log("sh"+this.hour)
     }
   }
   public setHourOfDay(hour:number)
@@ -39,7 +32,6 @@ export class TimeModel
   }
   public getHourForDisplay()
   {
-    console.log("ghfd"+this.hour)
     if(this.format==TimeFormat.CLOCK_24H){
       return this.hour%24}
     if((this.hour%12)==0){
@@ -74,11 +66,6 @@ export class TimeModel
   {
     return this.period==ClockPeriod.AM?"AM":"PM"
   }
-
-  //  public setSeconds(second:number)
-  //  {
-  //    this.seconds=second%60
-  //  }
   public setPeriod(period:ClockPeriod)
   {
     if(this.format==TimeFormat.CLOCK_12H && this.period!=period)

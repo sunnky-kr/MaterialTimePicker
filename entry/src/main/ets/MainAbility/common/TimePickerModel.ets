@@ -1,5 +1,5 @@
 import { TimeModel } from "./TimeModel"
-import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./Enums"
+import { ElementFormat, TimeFormat, InputMethod } from "./Enums"
 
 export class ElementPosition implements Position {
   x: number;
@@ -22,20 +22,18 @@ export class TimePickerModel {
   rotation: number= 0
   height: number= 256
   width: number= 280
-  handLength: number= 100
-  handColor: string | Color= Color.Blue
+  handLength: number= 75
+  handColor: string | Color= "#5e00ff"
   jointSize: number= 10
   pointerDiameter: number= 50
   startPoint: number[]
   endPoint: number[]
   pointerPosition: ElementPosition= new ElementPosition()
-  //ClockFaceParameters
   clockFaceDiameter: number= 256
-  clockFaceColor: string | Color= "#cccccc"
+  clockFaceColor: string | Color= "#e4e4e4"
   elementPositionRadius: number= 100
   elementRadius: number= 50
   numberOfElements: number= 12
-  //  diameter:number=250
   selectedElementColor: string | Color= Color.White
   unselectedElementColor: string | Color= Color.Black
   elements: number[]= []
@@ -44,6 +42,8 @@ export class TimePickerModel {
   selectedState: number= 0
   elementColors: (string | Color)[]
   inputMethod: InputMethod= InputMethod.ClockInputMethod
+  chipHeight:number
+  totalHeight:number
   model: TimeModel
 
   constructor(hour:number=new Date().getHours(),minute:number=new Date().getMinutes(),format:TimeFormat=TimeFormat.CLOCK_24H) {
@@ -55,10 +55,10 @@ export class TimePickerModel {
   setInputMethod(method: InputMethod) {
     if (this.inputMethod != method) {
       this.inputMethod = method
+      this.updateHeight()
     }
   }
   getRotation(){
-    console.log("gR"+this.model.hour)
     if(this.format!=ElementFormat.FORMAT_MINUTE)
     {
       return this.model.getHourForDisplay()*this.leastCount
@@ -77,18 +77,23 @@ export class TimePickerModel {
   }
 
   updatePointerPosition() {
-    this.pointerPosition.x = this.endPoint[0] - this.pointerDiameter / 2
-    this.pointerPosition.y = this.endPoint[1] - this.pointerDiameter / 2
+    this.pointerPosition.x = this.endPoint[0]+ this.pointerDiameter / 2*(Math.sin((this.rotation * Math.PI) / 180)-1)
+    this.pointerPosition.y = this.endPoint[1] - this.pointerDiameter / 2*(1+Math.cos((this.rotation * Math.PI) / 180))
+  }
+  updateHeight()
+  {
+    this.chipHeight=this.inputMethod==InputMethod.TextInputMethod?100:372
+    this.totalHeight=this.inputMethod==InputMethod.TextInputMethod?228:500
   }
 
   update() {
     this.updateEndPoint()
     this.updateStartPoint()
     this.updatePointerPosition()
+    this.updateHeight()
   }
   setClockFormat(format:TimeFormat)
-  {    console.log("scf"+this.model.hour)
-
+  {
        this.model.format=format
        if(this.format!=ElementFormat.FORMAT_MINUTE)
        {
@@ -97,30 +102,23 @@ export class TimePickerModel {
   }
   setFormat(format:ElementFormat)
   {
-    console.log("sf"+this.model.hour)
     if(this.format!=format)
     {
       this.format=format
       this.elements = this.ElementOptions[format]
       this.leastCount = this.LeastCountOptions[format]
-      console.log("f"+this.model.hour)
       this.setRotation(this.getRotation())
       this.update()
-      //      this.leastCount=this.LeastCountOptions[format]
     }
 
   }
   setRotation(degrees: number,dropped:boolean=false) {
-    console.log("sr"+this.model.hour)
     degrees %= 360
     if (degrees < 0)
     degrees += 360
-    //    console.log(degrees+"")
     this.rotation = degrees
     if(this.format!=ElementFormat.FORMAT_MINUTE)
     {
-      console.log("sf"+this.model.hour+"   "+this.model.getPeriod())
-
       this.model.setHour(Math.round(degrees / this.leastCount))
     }
     else{
@@ -130,7 +128,6 @@ export class TimePickerModel {
     {
       this.rotation=this.finalRotation(this.rotation)
     }
-    console.log("sr"+this.model.hour)
   }
   finalRotation(degrees:number)
   {
@@ -166,7 +163,6 @@ export class TimePickerModel {
   setWidth(width: number) {
     this.width = width
   }
-  //Clock Face functions
   initialize() {
     this.elements = this.ElementOptions[this.format]
     this.leastCount = this.LeastCountOptions[this.format]

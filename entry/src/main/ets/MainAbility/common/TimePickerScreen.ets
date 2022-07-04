@@ -6,7 +6,6 @@ struct DemoScreen {
   build() {
 
     Flex({direction:FlexDirection.Column , alignContent:FlexAlign.SpaceBetween}) {
-      //     TimePickerComponent()
       Column({space:25}) {
         Text("Select Time").fontSize(20)
         TimePickerButton({ width: 280 })
@@ -38,7 +37,6 @@ struct DemoScreen {
     .width("40%")
     .height("100%")
     .padding({top:50,left:20})
-    //    .alignItems(HorizontalAlign.Start)
   }
 }
 @Component
@@ -46,13 +44,12 @@ struct TimePickerButton{
   @State hour: string= new Date().getHours()+""
   @State minute: string= new Date().getMinutes()+""
   @State time:string=this.hour+":"+this.minute
-  //  @State format: ElementFormat=ElementFormat.FORMAT_12H
   width: number=100
   controller: CustomDialogController= new CustomDialogController({
     builder: TimePickerDisplay({
       cancel: this.cancel,
       confirm: (time: string) => this.submit2(time),
-      format:TimeFormat.CLOCK_12H
+//      format:TimeFormat.CLOCK_24H
     })
   })
   submit(hour: string, minute: string)

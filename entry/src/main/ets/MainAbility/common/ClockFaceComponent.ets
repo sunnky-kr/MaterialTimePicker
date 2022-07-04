@@ -1,11 +1,9 @@
-import { ElementPosition, TimePickerModel } from "./TimePickerModel"
+import {TimePickerModel } from "./TimePickerModel"
 import {ClockHandComponent} from './ClockHandComponent'
-import {ElementFormat,ClockPeriod,TimeFormat,InputMethod} from "./Enums"
+import {InputMethod} from "./Enums"
 
-//@Entry
 @Component
 export struct ClockFaceComponent {
-  //  @State timePickerModel: TimePickerModel=new TimePickerModel()
   @Link timePickerModel: TimePickerModel
 
   aboutToAppear() {
@@ -40,7 +38,6 @@ export struct RadialContainer {
           .fontSize(20)
           .position(this.timePickerModel.elementPositions[idx])
           .alignSelf(ItemAlign.Center)
-            //          .fontColor(this.timePickerModel.elementColors[this.timePickerModel.elementStates[idx]])
           .onClick(() => {
             this.timePickerModel.elementStates[this.timePickerModel.selectedState] = 0
             this.timePickerModel.elementStates[idx] = 1

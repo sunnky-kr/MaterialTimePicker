@@ -1,42 +1,22 @@
-import {ClockFaceComponent,RadialContainer} from "./ClockFaceComponent"
-import {ChipTextInputComboComponent} from "./ChipTextInputComboComponent"
 import {TimePickerModel} from "./TimePickerModel"
 import {TimeModel} from "./TimeModel"
 import {TimePickerComponent} from "./TimePickerComponent"
-import {ElementFormat,ClockPeriod,TimeFormat,InputMethod} from "./Enums"
+import {TimeFormat,InputMethod} from "./Enums"
 
-//export class ElementPosition implements Position
-//{
-//  x:number;y:number;
-//  ElementPosition(x:number,y:number)
-//  {
-//    this.x=x!=undefined?x:0;
-//    this.y=y!=undefined?y:0;
-//
-//  }
-//}
-//@Entry
-//@Component
 @CustomDialog
 export struct TimePickerDisplay {
   @State parentModel:TimePickerModel=undefined
-  @State height:number=372
-  @State totalHeight:number =500
-  @State format:TimeFormat=TimeFormat.CLOCK_12H
+  format:TimeFormat
   timeModel:TimeModel
   controller:CustomDialogController
   cancel:() => void
-  //  confirm: (hour,minute)=> void
   confirm:(time)=>void
   inputSymbol:Resource[]=[$r("app.media.keyboard"),$r("app.media.clock")]
   aboutToAppear()
   {
-    //        this.timeModel=new TimeModel()
+    this.format=this.format==undefined?TimeFormat.CLOCK_12H:this.format
     this.parentModel=new TimePickerModel(new Date().getHours(),new Date().getMinutes(), this.format)
-    this.height=this.parentModel.inputMethod==InputMethod.TextInputMethod?100:372
-    this.totalHeight=this.parentModel.inputMethod==InputMethod.TextInputMethod?228:500
     this.parentModel.setClockFormat(this.format)
-    //  @State Thour:number=new Date().getHours()
   }
   build()
   {
@@ -45,16 +25,13 @@ export struct TimePickerDisplay {
       Row() {
         Text("SELECT TIME")
           .fontSize(12)
-          .fontColor(Color.Grey)
-        //        .align(Alignment.BottomStart)
+          .fontColor("#717171")
       }
       .alignItems(VerticalAlign.Bottom)
       .height(28)
       .width(280)
-      //        .backgroundColor(Color.Brown)
-      //        .margin({bottom:24})
       Stack() {
-        TimePickerComponent({ timePickerModel: $parentModel, height:$height})
+        TimePickerComponent({ timePickerModel: $parentModel, height:this.parentModel.chipHeight})
       }
       .displayPriority(2)
       Row({space:118})
@@ -68,9 +45,7 @@ export struct TimePickerDisplay {
         .backgroundColor(Color.White)
         .onClick(()=>
         {
-          this.parentModel.inputMethod=1-this.parentModel.inputMethod
-          this.height=this.parentModel.inputMethod==InputMethod.TextInputMethod?100:372
-          this.totalHeight=this.parentModel.inputMethod==InputMethod.TextInputMethod?228:500
+          this.parentModel.setInputMethod(1-this.parentModel.inputMethod)
         })
         Row({space:8})
         {
@@ -81,7 +56,7 @@ export struct TimePickerDisplay {
             .height(36)
             .padding({ left:2 ,right:2,top:10,bottom:10})
             .backgroundColor(Color.White)
-            .fontColor(Color.Gray)
+            .fontColor("#9d9d9d")
             .onClick(()=>
             {
               this.cancel()
@@ -91,8 +66,9 @@ export struct TimePickerDisplay {
             .type(ButtonType.Normal)
             .width(64)
             .height(36)
-            .backgroundColor(Color.White)
-            .fontColor(Color.Gray)
+            .backgroundColor("#5e00ff")
+            .fontColor(Color.White)
+            .borderRadius(2)
             .onClick(()=>
             {
               this.confirm(this.parentModel.model.getTimeForDisplay())
@@ -104,12 +80,10 @@ export struct TimePickerDisplay {
       }
       .height(52)
       .width("100%")
-      //      .margin({left:12})
       .padding({left:12,right:8})
-      //      .backgroundColor(Color.Black)
     }
     .width(328)
-    .height(this.totalHeight)
+    .height(this.parentModel.totalHeight)
     .padding(0)
     .alignItems(HorizontalAlign.Center)
   }

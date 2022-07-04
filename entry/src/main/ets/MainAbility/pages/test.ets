@@ -3,6 +3,8 @@
 @Component
 struct LineExample {
   @State param:number=232
+  aboutToAppear(){
+  }
   build() {
     Column() {
       Line({ width: 50, height: 100 }).startPoint([0, 0]).endPoint([50, 100]).strokeWidth(6).fill(Color.Red)
