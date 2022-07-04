@@ -5,17 +5,19 @@ import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./Enums"
 export struct ChipTextInputComboComponent {
   @Link timePickerModel: TimePickerModel
   @State selectedPeriod: number= 0
-  start1:Date
-  start2:Date
+  start1: Date
+  start2: Date
   StateColors: (string | Color)[]= ["#ffd8ddff", "#e4e4e4"]
-  TimeStateColors:(string | Color)[]= ["#ff5e00ff", "#ff282828"]
-  periodBGColors:(string | Color)[]= ["#ffd8ddff", Color.White]
-  periodStateColors:(string | Color)[]= [ "#ff5e00ff","#ffabaaad"]
+  TimeStateColors: (string | Color)[]= ["#ff5e00ff", "#ff282828"]
+  periodBGColors: (string | Color)[]= ["#ffd8ddff", Color.White]
+  periodStateColors: (string | Color)[]= ["#ff5e00ff", "#ffabaaad"]
   borderColor: string | Color= "#ffabaaad"
-  aboutToAppear(){
-    if(this.timePickerModel.model.period==ClockPeriod.PM)
-    this.selectedPeriod=1
+
+  aboutToAppear() {
+    if (this.timePickerModel.model.period == ClockPeriod.PM)
+    this.selectedPeriod = 1
   }
+
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, alignContent: FlexAlign.Center }) {
       Column({ space: 0 }) {
@@ -24,8 +26,8 @@ export struct ChipTextInputComboComponent {
             .width('100%')
             .height('100%')
             .fontSize(50)
-            .fontColor(this.TimeStateColors[this.timePickerModel.format==ElementFormat.FORMAT_MINUTE?1:0])
-            .backgroundColor(this.StateColors[this.timePickerModel.format==ElementFormat.FORMAT_MINUTE?1:0])
+            .fontColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
+            .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
             .enabled(this.timePickerModel.inputMethod == InputMethod.TextInputMethod)
             .borderColor(this.borderColor)
             .borderWidth(2)
@@ -39,18 +41,16 @@ export struct ChipTextInputComboComponent {
         .backgroundColor(Color.White)
         .onClick(() => {
           this.timePickerModel.setFormat(ElementFormat.FORMAT_12H)
-          if(this.start1==undefined)
-          {
-            this.start1=new Date()
+          if (this.start1 == undefined) {
+            this.start1 = new Date()
           }
-          else
-          {
-            var end=new Date()
-            var delay:number=end.getTime()-this.start1.getTime()
-            if(delay<400)
-              this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
+          else {
+            var end = new Date()
+            var delay: number = end.getTime() - this.start1.getTime()
+            if (delay < 400)
+            this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
 
-            this.start1=end
+            this.start1 = end
           }
         })
 
@@ -59,11 +59,11 @@ export struct ChipTextInputComboComponent {
           .height(20)
           .fontSize(12)
           .fontColor("#717171")
-          .padding({top:8})
-          .visibility(this.timePickerModel.inputMethod == InputMethod.TextInputMethod?Visibility.Visible:Visibility.None)
+          .padding({ top: 8 })
+          .visibility(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? Visibility.Visible : Visibility.None)
       }
       .width(96)
-      .height(this.timePickerModel.inputMethod == InputMethod.TextInputMethod?100:80)
+      .height(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? 100 : 80)
       .alignItems(HorizontalAlign.Start)
 
       Text(":")
@@ -79,8 +79,8 @@ export struct ChipTextInputComboComponent {
             .width('100%')
             .height('100%')
             .fontSize(50)
-            .fontColor(this.StateColors[this.timePickerModel.format==ElementFormat.FORMAT_MINUTE?0:1])
-            .backgroundColor(this.StateColors[this.timePickerModel.format==ElementFormat.FORMAT_MINUTE?0:1])
+            .fontColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
+            .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
             .enabled(this.timePickerModel.inputMethod == InputMethod.TextInputMethod)
             .borderColor(this.borderColor)
             .borderWidth(2)
@@ -94,30 +94,29 @@ export struct ChipTextInputComboComponent {
         .backgroundColor(Color.White)
         .onClick(() => {
           this.timePickerModel.setFormat(ElementFormat.FORMAT_MINUTE)
-          if(this.start2==undefined)
-          {
-            this.start2=new Date()
+          if (this.start2 == undefined) {
+            this.start2 = new Date()
           }
-          else
-          {
-            var end=new Date()
-            var delay:number=end.getTime()-this.start2.getTime()
-            if(delay<400)
+          else {
+            var end = new Date()
+            var delay: number = end.getTime() - this.start2.getTime()
+            if (delay < 400)
             this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
 
-            this.start2=end
+            this.start2 = end
           }
         })
+
         Text("Minute")
           .height(20)
           .fontSize(12)
           .fontColor("#717171")
-          .padding({top:8})
-          .visibility(this.timePickerModel.inputMethod == InputMethod.TextInputMethod?Visibility.Visible:Visibility.None)
+          .padding({ top: 8 })
+          .visibility(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? Visibility.Visible : Visibility.None)
 
       }
       .width(96)
-      .height(this.timePickerModel.inputMethod == InputMethod.TextInputMethod?100:80)
+      .height(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? 100 : 80)
       .alignItems(HorizontalAlign.Start)
 
       Column() {
@@ -142,7 +141,7 @@ export struct ChipTextInputComboComponent {
           .width('95%')
           .height('46.5%')
           .clip(true)
-          .margin({ bottom:2,left :2,right:2})
+          .margin({ bottom: 2, left: 2, right: 2 })
           .onClick(() => {
             this.selectedPeriod = 1
             this.timePickerModel.model.setPeriod(ClockPeriod.PM)
@@ -157,7 +156,7 @@ export struct ChipTextInputComboComponent {
       .margin({ left: 12 })
       .visibility(this.timePickerModel.model.format == TimeFormat.CLOCK_12H ? Visibility.Visible : Visibility.None)
     }
-    .width(this.timePickerModel.model.format==TimeFormat.CLOCK_24H?228:280)
+    .width(this.timePickerModel.model.format == TimeFormat.CLOCK_24H ? 228 : 280)
     .height(80)
   }
 }

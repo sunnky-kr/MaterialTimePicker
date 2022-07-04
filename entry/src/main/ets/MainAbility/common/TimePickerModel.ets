@@ -42,12 +42,12 @@ export class TimePickerModel {
   selectedState: number= 0
   elementColors: (string | Color)[]
   inputMethod: InputMethod= InputMethod.ClockInputMethod
-  chipHeight:number
-  totalHeight:number
+  chipHeight: number
+  totalHeight: number
   model: TimeModel
 
-  constructor(hour:number=new Date().getHours(),minute:number=new Date().getMinutes(),format:TimeFormat=TimeFormat.CLOCK_24H) {
-    this.model = new TimeModel(hour,minute,format )
+  constructor(hour: number=new Date().getHours(), minute: number=new Date().getMinutes(), format: TimeFormat=TimeFormat.CLOCK_24H) {
+    this.model = new TimeModel(hour, minute, format)
     this.setRotation(this.getRotation())
     this.update()
   }
@@ -58,16 +58,16 @@ export class TimePickerModel {
       this.updateHeight()
     }
   }
-  getRotation(){
-    if(this.format!=ElementFormat.FORMAT_MINUTE)
-    {
-      return this.model.getHourForDisplay()*this.leastCount
+
+  getRotation() {
+    if (this.format != ElementFormat.FORMAT_MINUTE) {
+      return this.model.getHourForDisplay() * this.leastCount
     }
-    else
-    {
-      return this.model.getMinuteForDisplay()*this.leastCount
+    else {
+      return this.model.getMinuteForDisplay() * this.leastCount
     }
   }
+
   updateStartPoint() {
     this.startPoint = [this.width / 2, this.height / 2]
   }
@@ -77,13 +77,13 @@ export class TimePickerModel {
   }
 
   updatePointerPosition() {
-    this.pointerPosition.x = this.endPoint[0]+ this.pointerDiameter / 2*(Math.sin((this.rotation * Math.PI) / 180)-1)
-    this.pointerPosition.y = this.endPoint[1] - this.pointerDiameter / 2*(1+Math.cos((this.rotation * Math.PI) / 180))
+    this.pointerPosition.x = this.endPoint[0] + this.pointerDiameter / 2 * (Math.sin((this.rotation * Math.PI) / 180) - 1)
+    this.pointerPosition.y = this.endPoint[1] - this.pointerDiameter / 2 * (1 + Math.cos((this.rotation * Math.PI) / 180))
   }
-  updateHeight()
-  {
-    this.chipHeight=this.inputMethod==InputMethod.TextInputMethod?100:372
-    this.totalHeight=this.inputMethod==InputMethod.TextInputMethod?228:500
+
+  updateHeight() {
+    this.chipHeight = this.inputMethod == InputMethod.TextInputMethod ? 100 : 372
+    this.totalHeight = this.inputMethod == InputMethod.TextInputMethod ? 228 : 500
   }
 
   update() {
@@ -92,19 +92,17 @@ export class TimePickerModel {
     this.updatePointerPosition()
     this.updateHeight()
   }
-  setClockFormat(format:TimeFormat)
-  {
-       this.model.format=format
-       if(this.format!=ElementFormat.FORMAT_MINUTE)
-       {
-         this.setFormat(format==TimeFormat.CLOCK_24H?ElementFormat.FORMAT_24H:ElementFormat.FORMAT_12H)
-       }
+
+  setClockFormat(format: TimeFormat) {
+    this.model.format = format
+    if (this.format != ElementFormat.FORMAT_MINUTE) {
+      this.setFormat(format == TimeFormat.CLOCK_24H ? ElementFormat.FORMAT_24H : ElementFormat.FORMAT_12H)
+    }
   }
-  setFormat(format:ElementFormat)
-  {
-    if(this.format!=format)
-    {
-      this.format=format
+
+  setFormat(format: ElementFormat) {
+    if (this.format != format) {
+      this.format = format
       this.elements = this.ElementOptions[format]
       this.leastCount = this.LeastCountOptions[format]
       this.setRotation(this.getRotation())
@@ -112,26 +110,25 @@ export class TimePickerModel {
     }
 
   }
-  setRotation(degrees: number,dropped:boolean=false) {
+
+  setRotation(degrees: number, dropped: boolean=false) {
     degrees %= 360
     if (degrees < 0)
     degrees += 360
     this.rotation = degrees
-    if(this.format!=ElementFormat.FORMAT_MINUTE)
-    {
+    if (this.format != ElementFormat.FORMAT_MINUTE) {
       this.model.setHour(Math.round(degrees / this.leastCount))
     }
-    else{
+    else {
       this.model.setMinute(Math.round(degrees / this.leastCount))
     }
-    if(dropped)
-    {
-      this.rotation=this.finalRotation(this.rotation)
+    if (dropped) {
+      this.rotation = this.finalRotation(this.rotation)
     }
   }
-  finalRotation(degrees:number)
-  {
-    return Math.round(degrees/this.leastCount)*this.leastCount
+
+  finalRotation(degrees: number) {
+    return Math.round(degrees / this.leastCount) * this.leastCount
   }
 
   setTime(hour: number, minute: number) {
@@ -163,6 +160,7 @@ export class TimePickerModel {
   setWidth(width: number) {
     this.width = width
   }
+
   initialize() {
     this.elements = this.ElementOptions[this.format]
     this.leastCount = this.LeastCountOptions[this.format]
@@ -184,5 +182,4 @@ export class TimePickerModel {
       return pos
     })
   }
-
 }

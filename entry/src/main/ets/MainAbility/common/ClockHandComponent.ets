@@ -1,5 +1,6 @@
 import { TimePickerModel } from './TimePickerModel';
-import {ElementFormat} from "./Enums"
+import { ElementFormat } from "./Enums"
+
 @Component
 export struct ClockHandComponent {
   @Link timePickerModel: TimePickerModel
@@ -25,14 +26,13 @@ export struct ClockHandComponent {
         .fill(this.timePickerModel.handColor)
         .position(this.timePickerModel.pointerPosition)
         .fillOpacity(0.5)
-        .onTouch((event)=>{
+        .onTouch((event) => {
           this.timePickerModel.setRotation((180 * Math.atan2(event.touches[0].x - this.timePickerModel.width / 2, -event.touches[0].y + this.timePickerModel.height / 2)) / Math.PI)
           this.timePickerModel.update()
-          if(event.type==TouchType.Up){
+          if (event.type == TouchType.Up) {
             setTimeout
             (
-            function changeInput()
-            {
+            function changeInput(){
               this.timePickerModel.setFormat(ElementFormat.FORMAT_MINUTE)
             }.bind(this),
               100
@@ -42,14 +42,13 @@ export struct ClockHandComponent {
     }
     .height(this.timePickerModel.height)
     .width(this.timePickerModel.width)
-    .onTouch((event)=>{
+    .onTouch((event) => {
       this.timePickerModel.setRotation((180 * Math.atan2(event.touches[0].x - this.timePickerModel.width / 2, -event.touches[0].y + this.timePickerModel.height / 2)) / Math.PI)
       this.timePickerModel.update()
-      if(event.type==TouchType.Up){
+      if (event.type == TouchType.Up) {
         setTimeout
         (
-        function changeInput()
-        {
+        function changeInput(){
           this.timePickerModel.setFormat(ElementFormat.FORMAT_MINUTE)
         }.bind(this),
           100

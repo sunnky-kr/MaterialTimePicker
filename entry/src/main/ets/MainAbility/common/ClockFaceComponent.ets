@@ -1,6 +1,6 @@
-import {TimePickerModel } from "./TimePickerModel"
-import {ClockHandComponent} from './ClockHandComponent'
-import {InputMethod} from "./Enums"
+import { TimePickerModel } from "./TimePickerModel"
+import { ClockHandComponent } from './ClockHandComponent'
+import { InputMethod } from "./Enums"
 
 @Component
 export struct ClockFaceComponent {
@@ -18,7 +18,7 @@ export struct ClockFaceComponent {
     }
     .width(this.timePickerModel.width)
     .height(this.timePickerModel.height)
-    .visibility(this.timePickerModel.inputMethod==InputMethod.ClockInputMethod?Visibility.Visible:Visibility.None)
+    .visibility(this.timePickerModel.inputMethod == InputMethod.ClockInputMethod ? Visibility.Visible : Visibility.None)
   }
 }
 
