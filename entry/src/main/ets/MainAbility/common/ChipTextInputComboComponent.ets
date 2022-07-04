@@ -46,7 +46,6 @@ export struct ChipTextInputComboComponent {
           else
           {
             var end=new Date()
-            console.log(end.getTime()+"")
             var delay:number=end.getTime()-this.start1.getTime()
             if(delay<400)
               this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
@@ -102,7 +101,6 @@ export struct ChipTextInputComboComponent {
           else
           {
             var end=new Date()
-            console.log(end.getTime()+"")
             var delay:number=end.getTime()-this.start2.getTime()
             if(delay<400)
             this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
@@ -132,7 +130,6 @@ export struct ChipTextInputComboComponent {
           .height('46.5%')
           .clip(true)
           .margin(2)
-//          .borderRadius(20)
           .onClick(() => {
             this.selectedPeriod = 0
             this.timePickerModel.model.setPeriod(ClockPeriod.AM)
@@ -146,7 +143,6 @@ export struct ChipTextInputComboComponent {
           .height('46.5%')
           .clip(true)
           .margin({ bottom:2,left :2,right:2})
-//          .borderRadius(20)
           .onClick(() => {
             this.selectedPeriod = 1
             this.timePickerModel.model.setPeriod(ClockPeriod.PM)

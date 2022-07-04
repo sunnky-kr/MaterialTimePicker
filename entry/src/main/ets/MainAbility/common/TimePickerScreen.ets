@@ -49,7 +49,6 @@ struct TimePickerButton{
     builder: TimePickerDisplay({
       cancel: this.cancel,
       confirm: (time: string) => this.submit2(time),
-//      format:TimeFormat.CLOCK_24H
     })
   })
   submit(hour: string, minute: string)
@@ -63,7 +62,6 @@ struct TimePickerButton{
   }
   cancel()
   {
-    console.log("TimePicker Closed")
   }
   build(){
     Flex({justifyContent : FlexAlign.SpaceBetween}) {

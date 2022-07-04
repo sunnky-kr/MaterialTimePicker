@@ -28,7 +28,6 @@ export struct RadialContainer {
 
   aboutToAppear() {
     this.timePickerModel.initialize()
-    console.log("initialized")
   }
 
   build() {

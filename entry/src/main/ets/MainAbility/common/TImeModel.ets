@@ -59,7 +59,6 @@ export class TimeModel
   public getTimeForDisplay()
   {
     var period:string=this.format==TimeFormat.CLOCK_12H?" "+this.getPeriod():""
-    console.log(""+this.format)
     return this.formattedHour()+":"+this.formattedMinute()+period
   }
   public getPeriod()
