@@ -12,12 +12,12 @@ export class ElementPosition implements Position {
 }
 
 export class TimePickerModel {
-  ElementOptions: number[][]= [
+  private ElementOptions: number[][]= [
     [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
     [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]]
-  LeastCountOptions: number[]= [30, 15, 6]
-  leastCount: number= 30
+  private LeastCountOptions: number[]= [30, 15, 6]
+  private leastCount: number= 30
   format: ElementFormat= ElementFormat.FORMAT_12H
   rotation: number= 0
   clockHeight: number= 256
@@ -32,6 +32,7 @@ export class TimePickerModel {
   elementCoverPosition: ElementPosition= new ElementPosition()
   clockFaceDiameter: number= 256
   clockFaceColor: string | Color= "#e4e4e4"
+  elementColor: string|Color=Color.Black
   elementPositionRadius: number= 100
   elementSize: number= 25
   numberOfElements: number= 12
@@ -54,7 +55,15 @@ export class TimePickerModel {
       this.updateHeight()
     }
   }
-
+  setClockFaceColor(color : Color| string) {
+    this.clockFaceColor=color
+  }
+  setClockElementColor(color : Color| string) {
+    this.elementColor=color
+  }
+  setClockHandColor(color : Color| string) {
+    this.handColor=color
+  }
   getRotation() {
     if (this.format != ElementFormat.FORMAT_MINUTE) {
       return this.model.getHourForDisplay() * this.leastCount

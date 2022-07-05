@@ -1,5 +1,4 @@
-import { TimePickerModel } from "./timepickermodel"
-import { TimeModel } from "./timemodel"
+import { TimePickerModel } from "./TimePickerModel"
 import { TimePickerComponent } from "./timepickercomponent"
 import { TimeFormat, InputMethod } from "./enums"
 
@@ -7,22 +6,47 @@ import { TimeFormat, InputMethod } from "./enums"
 export struct MaterialTimePicker {
   @State parentModel: TimePickerModel= undefined
   format: TimeFormat
-  timeModel: TimeModel
+  hour :number
+  minute:number
   controller: CustomDialogController
   cancel: () => void
-  confirm: (time) => void
-  inputSymbol: Resource[]= [$r("app.media.keyboard"), $r("app.media.clock")]
+  confirm: (time:string) => void
+  keyboardSymbol: Resource=$r("app.media.keyboard")
+  clockSymbol: Resource=$r("app.media.clock")
+  clockFaceColor: Color|string
+  clockHandColor: Color|string
+  clockElementColor: Color |string
+  title: string="SELECT TIME"
+  inputMethod: InputMethod
+  inputSymbol: Resource[]
 
   aboutToAppear() {
     this.format = this.format == undefined ? TimeFormat.CLOCK_12H : this.format
-    this.parentModel = new TimePickerModel(new Date().getHours(), new Date().getMinutes(), this.format)
+    if(this.parentModel==undefined){
+      this.parentModel = new TimePickerModel(new Date().getHours(), new Date().getMinutes(), this.format)
+    }
     this.parentModel.setClockFormat(this.format)
+    if(this.hour!=undefined){
+      this.parentModel.model.setHour(this.hour)
+    }
+    if(this.minute!=undefined) {
+      this.parentModel.model.setMinute(this.minute)
+    }
+    this.inputSymbol= [this.keyboardSymbol, this.clockSymbol]
+    if(this.inputMethod!=undefined)
+      this.parentModel.setInputMethod(this.inputMethod)
+    if(this.clockFaceColor!=undefined)
+      this.parentModel.setClockFaceColor(this.clockFaceColor)
+    if(this.clockHandColor!=undefined)
+      this.parentModel.setClockHandColor(this.clockHandColor)
+    if(this.clockElementColor!=undefined)
+      this.parentModel.setClockElementColor(this.clockElementColor)
   }
 
   build() {
     Column({ space: 24 }) {
       Row() {
-        Text("SELECT TIME")
+        Text(this.title)
           .fontSize(12)
           .fontColor("#717171")
       }

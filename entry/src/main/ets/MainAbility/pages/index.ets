@@ -1,4 +1,4 @@
-import {  MaterialTimePicker} from "@ohos/material_timepicker"
+import { MaterialTimePicker, TimeFormat, InputMethod } from "@ohos/material_timepicker"
 
 @Entry
 @Component
@@ -50,6 +50,7 @@ struct TimePickerButton {
     builder: MaterialTimePicker({
       cancel: this.cancel,
       confirm: (time: string) => this.submit2(time),
+      keyboardSymbol: $r("app.media.icon")
     })
   })
 
@@ -67,7 +68,7 @@ struct TimePickerButton {
 
   build() {
     Flex({ justifyContent: FlexAlign.SpaceBetween }) {
-      TextArea({ placeholder: this.time }).width(this.width)
+      TextArea({ text: this.time }).width(this.width)
       Button({ type: ButtonType.Capsule }) {
 
         Image($r("app.media.clock")).width(30).height(30)
