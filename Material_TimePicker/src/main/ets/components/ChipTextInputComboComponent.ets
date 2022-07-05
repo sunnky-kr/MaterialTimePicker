@@ -1,5 +1,5 @@
-import { TimePickerModel } from "./TimePickerModel"
-import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./Enums"
+import { TimePickerModel } from "./timepickermodel"
+import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./enums"
 
 @Component
 export struct ChipTextInputComboComponent {
@@ -21,24 +21,24 @@ export struct ChipTextInputComboComponent {
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, alignContent: FlexAlign.Center }) {
       Column({ space: 0 }) {
-        Button() {
-          TextInput({ placeholder: (this.timePickerModel.model.formattedHour()) })
+        Column() {
+          TextInput({ text: (this.timePickerModel.model.formattedHour()) })
             .width('100%')
             .height('100%')
             .fontSize(50)
             .fontColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
             .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
             .enabled(this.timePickerModel.inputMethod == InputMethod.TextInputMethod)
-            .borderColor(this.borderColor)
-            .borderWidth(2)
-            .borderRadius(22)
             .onChange((value: string) => {
               this.timePickerModel.model.setHour(Number(value))
             })
         }
         .width('100%')
         .height(80)
-        .backgroundColor(Color.White)
+        .borderRadius(2)
+        .borderWidth(2)
+        .borderColor(this.timePickerModel.format != ElementFormat.FORMAT_MINUTE && this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? "#ff5e00ff" : this.borderColor)
+        .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
         .onClick(() => {
           this.timePickerModel.setFormat(ElementFormat.FORMAT_12H)
           if (this.start1 == undefined) {
@@ -66,32 +66,32 @@ export struct ChipTextInputComboComponent {
       .height(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? 100 : 80)
       .alignItems(HorizontalAlign.Start)
 
-      Text(":")
-        .width(24)
-        .height(80)
-        .fontWeight(FontWeight.Bolder)
-        .fontSize(60)
-        .fontFamily("Calibri")
-        .align(Alignment.Center)
+      Column() {
+        Text(":").fontWeight(FontWeight.Bolder).fontSize(60).fontFamily("Calibri")
+      }
+      .width(24)
+      .height(80)
+      .alignItems(HorizontalAlign.Center)
+
       Column({ space: 0 }) {
-        Button() {
-          TextInput({ placeholder: (this.timePickerModel.model.formattedMinute()) })
+        Column() {
+          TextInput({ text: (this.timePickerModel.model.formattedMinute()) })
             .width('100%')
             .height('100%')
             .fontSize(50)
-            .fontColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
+            .fontColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
             .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
             .enabled(this.timePickerModel.inputMethod == InputMethod.TextInputMethod)
-            .borderColor(this.borderColor)
-            .borderWidth(2)
-            .borderRadius(22)
             .onChange((value: string) => {
               this.timePickerModel.model.setMinute(Number(value))
             })
         }
         .width('100%')
         .height(80)
-        .backgroundColor(Color.White)
+        .borderRadius(2)
+        .borderWidth(2)
+        .borderColor(this.timePickerModel.format == ElementFormat.FORMAT_MINUTE && this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? "#ff5e00ff" : this.borderColor)
+        .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
         .onClick(() => {
           this.timePickerModel.setFormat(ElementFormat.FORMAT_MINUTE)
           if (this.start2 == undefined) {

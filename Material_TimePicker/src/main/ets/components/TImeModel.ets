@@ -1,4 +1,4 @@
-import { ClockPeriod, TimeFormat } from "./Enums"
+import { ClockPeriod, TimeFormat } from "./enums"
 
 export class TimeModel {
   hour: number

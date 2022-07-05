@@ -1,5 +1,5 @@
-import { TimeModel } from "./TimeModel"
-import { ElementFormat, TimeFormat, InputMethod } from "./Enums"
+import { TimeModel } from "./timemodel"
+import { ElementFormat, TimeFormat, InputMethod } from "./enums"
 
 export class ElementPosition implements Position {
   x: number;
@@ -20,8 +20,8 @@ export class TimePickerModel {
   leastCount: number= 30
   format: ElementFormat= ElementFormat.FORMAT_12H
   rotation: number= 0
-  height: number= 256
-  width: number= 280
+  clockHeight: number= 256
+  clockWidth: number= 280
   handLength: number= 75
   handColor: string | Color= "#5e00ff"
   jointSize: number= 10
@@ -29,18 +29,14 @@ export class TimePickerModel {
   startPoint: number[]
   endPoint: number[]
   pointerPosition: ElementPosition= new ElementPosition()
+  elementCoverPosition: ElementPosition= new ElementPosition()
   clockFaceDiameter: number= 256
   clockFaceColor: string | Color= "#e4e4e4"
   elementPositionRadius: number= 100
-  elementRadius: number= 50
+  elementSize: number= 25
   numberOfElements: number= 12
-  selectedElementColor: string | Color= Color.White
-  unselectedElementColor: string | Color= Color.Black
   elements: number[]= []
   elementPositions: ElementPosition[]= []
-  elementStates: number[]= []
-  selectedState: number= 0
-  elementColors: (string | Color)[]
   inputMethod: InputMethod= InputMethod.ClockInputMethod
   chipHeight: number
   totalHeight: number
@@ -69,16 +65,18 @@ export class TimePickerModel {
   }
 
   updateStartPoint() {
-    this.startPoint = [this.width / 2, this.height / 2]
+    this.startPoint = [this.clockWidth / 2, this.clockHeight / 2]
   }
 
   updateEndPoint() {
-    this.endPoint = [this.width / 2 + this.handLength * Math.sin((this.rotation * Math.PI) / 180), this.height / 2 - this.handLength * Math.cos((this.rotation * Math.PI) / 180)]
+    this.endPoint = [this.clockWidth / 2 + this.handLength * Math.sin((this.rotation * Math.PI) / 180), this.clockHeight / 2 - this.handLength * Math.cos((this.rotation * Math.PI) / 180)]
   }
 
   updatePointerPosition() {
     this.pointerPosition.x = this.endPoint[0] + this.pointerDiameter / 2 * (Math.sin((this.rotation * Math.PI) / 180) - 1)
     this.pointerPosition.y = this.endPoint[1] - this.pointerDiameter / 2 * (1 + Math.cos((this.rotation * Math.PI) / 180))
+    this.elementCoverPosition.x = -this.pointerPosition.x
+    this.elementCoverPosition.y = -this.pointerPosition.y
   }
 
   updateHeight() {
@@ -154,22 +152,16 @@ export class TimePickerModel {
   }
 
   setHeight(height: number) {
-    this.height = height
+    this.clockHeight = height
   }
 
   setWidth(width: number) {
-    this.width = width
+    this.clockWidth = width
   }
 
   initialize() {
     this.elements = this.ElementOptions[this.format]
     this.leastCount = this.LeastCountOptions[this.format]
-    this.elementStates = Array(this.numberOfElements).fill(0)
-    if ((this.rotation % 360) % (360 / this.numberOfElements) < 0.01) {
-      this.selectedState = Number(Math.round((this.rotation % 360) / (360 / this.numberOfElements)))
-      this.elementStates[this.selectedState] = 1
-    }
-    this.elementColors = [this.unselectedElementColor, this.selectedElementColor]
     this.updateElementPositions()
   }
 
@@ -177,8 +169,8 @@ export class TimePickerModel {
     this.elementPositions = Array(this.numberOfElements).fill(1).map((_, idx) => {
       var angle: number = (idx * 360 * Math.PI) / (180 * this.numberOfElements);
       var pos: ElementPosition = new ElementPosition();
-      pos.x = this.width / 2 + this.elementPositionRadius * Math.sin(angle) - this.elementRadius / 4
-      pos.y = this.height / 2 - this.elementPositionRadius * Math.cos(angle) - this.elementRadius / 4
+      pos.x = this.clockWidth / 2 + this.elementPositionRadius * Math.sin(angle) - this.elementSize / 2
+      pos.y = this.clockHeight / 2 - this.elementPositionRadius * Math.cos(angle) - this.elementSize / 2
       return pos
     })
   }

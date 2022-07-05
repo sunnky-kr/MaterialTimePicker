@@ -1,10 +1,10 @@
-import { TimePickerModel } from "./TimePickerModel"
-import { TimeModel } from "./TimeModel"
-import { TimePickerComponent } from "./TimePickerComponent"
-import { TimeFormat, InputMethod } from "./Enums"
+import { TimePickerModel } from "./timepickermodel"
+import { TimeModel } from "./timemodel"
+import { TimePickerComponent } from "./timepickercomponent"
+import { TimeFormat, InputMethod } from "./enums"
 
 @CustomDialog
-export struct TimePickerDisplay {
+export struct MaterialTimePicker {
   @State parentModel: TimePickerModel= undefined
   format: TimeFormat
   timeModel: TimeModel

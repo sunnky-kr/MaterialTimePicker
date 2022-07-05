@@ -1,6 +1,6 @@
-import { TimePickerModel } from "./TimePickerModel"
-import { ClockHandComponent } from './ClockHandComponent'
-import { InputMethod } from "./Enums"
+import { TimePickerModel } from "./timepickermodel"
+import { ClockHandComponent } from './clockhandcomponent'
+import { InputMethod } from "./enums"
 
 @Component
 export struct ClockFaceComponent {
@@ -16,8 +16,8 @@ export struct ClockFaceComponent {
       RadialContainer({ timePickerModel: $timePickerModel })
       ClockHandComponent({ timePickerModel: $timePickerModel })
     }
-    .width(this.timePickerModel.width)
-    .height(this.timePickerModel.height)
+    .width(this.timePickerModel.clockWidth)
+    .height(this.timePickerModel.clockHeight)
     .visibility(this.timePickerModel.inputMethod == InputMethod.ClockInputMethod ? Visibility.Visible : Visibility.None)
   }
 }
@@ -33,18 +33,15 @@ export struct RadialContainer {
   build() {
     Flex() {
       ForEach(this.timePickerModel.elements, (element, idx) => {
-        Text(element + "")
-          .fontSize(20)
-          .position(this.timePickerModel.elementPositions[idx])
-          .alignSelf(ItemAlign.Center)
-          .onClick(() => {
-            this.timePickerModel.elementStates[this.timePickerModel.selectedState] = 0
-            this.timePickerModel.elementStates[idx] = 1
-            this.timePickerModel.selectedState = idx
-            this.timePickerModel.rotation = idx * (360 / this.timePickerModel.numberOfElements)
-          })
+        Column() {
+          Text(element + "").fontSize(20).alignSelf(ItemAlign.Center).fontColor(Color.Black)
+        }
+        .height(this.timePickerModel.elementSize)
+        .width(this.timePickerModel.elementSize)
+        .position(this.timePickerModel.elementPositions[idx])
+        .alignItems(HorizontalAlign.Center)
       })
     }
-    .height(this.timePickerModel.height).width(this.timePickerModel.width)
+    .height(this.timePickerModel.clockHeight).width(this.timePickerModel.clockWidth)
   }
 }

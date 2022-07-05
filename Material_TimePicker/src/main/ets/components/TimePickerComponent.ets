@@ -1,6 +1,6 @@
-import { ClockFaceComponent } from "./ClockFaceComponent"
-import { TimePickerModel } from "./TimePickerModel"
-import { ChipTextInputComboComponent } from "./ChipTextInputComboComponent"
+import { ClockFaceComponent } from "./clockfacecomponent"
+import { TimePickerModel } from "./timepickermodel"
+import { ChipTextInputComboComponent } from "./chiptextinputcombocomponent"
 
 @Component
 export struct TimePickerComponent {
