@@ -1,3 +1,5 @@
 /node_modules
 /.preview
 /build
+/src/main/ets/MainAbility/common
+/src/main/ets/MainAbility/pages/test2.ets
