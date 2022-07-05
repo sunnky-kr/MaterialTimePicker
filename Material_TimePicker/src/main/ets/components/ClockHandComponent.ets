@@ -23,25 +23,6 @@ export struct ClockHandComponent {
       Circle({ height: this.timePickerModel.jointSize, width: this.timePickerModel.jointSize })
         .fill(this.timePickerModel.handColor)
       Column() {
-        Circle({ height: this.timePickerModel.pointerDiameter, width: this.timePickerModel.pointerDiameter })
-          .fill(this.timePickerModel.handColor)
-          .onTouch((event) => {
-            if (event.type == TouchType.Up) {
-              this.timePickerModel.setRotation((180 * Math.atan2(event.touches[0].x - this.timePickerModel.clockWidth / 2, -event.touches[0].y + this.timePickerModel.clockHeight / 2)) / Math.PI, true)
-              this.timePickerModel.update()
-              setTimeout
-              (
-              function changeInput(){
-                this.timePickerModel.setFormat(ElementFormat.FORMAT_MINUTE)
-              }.bind(this),
-                100
-              );
-            }
-            else {
-              this.timePickerModel.setRotation((180 * Math.atan2(event.touches[0].x - this.timePickerModel.clockWidth / 2, -event.touches[0].y + this.timePickerModel.clockHeight / 2)) / Math.PI)
-              this.timePickerModel.update()
-            }
-          })
         Flex() {
           ForEach(this.timePickerModel.elements, (element, idx) => {
             Column() {
@@ -58,6 +39,7 @@ export struct ClockHandComponent {
         .position(this.timePickerModel.elementCoverPosition)
 
       }
+      .backgroundColor(this.timePickerModel.handColor)
       .clip(true)
       .position(this.timePickerModel.pointerPosition)
       .height(this.timePickerModel.pointerDiameter)
