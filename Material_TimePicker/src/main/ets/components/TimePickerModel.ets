@@ -32,7 +32,7 @@ export class TimePickerModel {
   elementCoverPosition: ElementPosition= new ElementPosition()
   clockFaceDiameter: number= 256
   clockFaceColor: string | Color= "#e4e4e4"
-  elementColor: string|Color=Color.Black
+  elementColor: string | Color= Color.Black
   elementPositionRadius: number= 100
   elementSize: number= 25
   numberOfElements: number= 12
@@ -55,15 +55,19 @@ export class TimePickerModel {
       this.updateHeight()
     }
   }
-  setClockFaceColor(color : Color| string) {
-    this.clockFaceColor=color
+
+  setClockFaceColor(color: Color | string) {
+    this.clockFaceColor = color
   }
-  setClockElementColor(color : Color| string) {
-    this.elementColor=color
+
+  setClockElementColor(color: Color | string) {
+    this.elementColor = color
   }
-  setClockHandColor(color : Color| string) {
-    this.handColor=color
+
+  setClockHandColor(color: Color | string) {
+    this.handColor = color
   }
+
   getRotation() {
     if (this.format != ElementFormat.FORMAT_MINUTE) {
       return this.model.getHourForDisplay() * this.leastCount

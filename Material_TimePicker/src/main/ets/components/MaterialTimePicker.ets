@@ -6,41 +6,41 @@ import { TimeFormat, InputMethod } from "./enums"
 export struct MaterialTimePicker {
   @State parentModel: TimePickerModel= undefined
   format: TimeFormat
-  hour :number
-  minute:number
+  hour: number
+  minute: number
   controller: CustomDialogController
   cancel: () => void
-  confirm: (time:string) => void
-  keyboardSymbol: Resource=$r("app.media.keyboard")
-  clockSymbol: Resource=$r("app.media.clock")
-  clockFaceColor: Color|string
-  clockHandColor: Color|string
-  clockElementColor: Color |string
-  title: string="SELECT TIME"
+  confirm: (time: string) => void
+  keyboardSymbol: Resource= $r("app.media.keyboard")
+  clockSymbol: Resource= $r("app.media.clock")
+  clockFaceColor: Color | string
+  clockHandColor: Color | string
+  clockElementColor: Color | string
+  title: string= "SELECT TIME"
   inputMethod: InputMethod
   inputSymbol: Resource[]
 
   aboutToAppear() {
     this.format = this.format == undefined ? TimeFormat.CLOCK_12H : this.format
-    if(this.parentModel==undefined){
+    if (this.parentModel == undefined) {
       this.parentModel = new TimePickerModel(new Date().getHours(), new Date().getMinutes(), this.format)
     }
     this.parentModel.setClockFormat(this.format)
-    if(this.hour!=undefined){
+    if (this.hour != undefined) {
       this.parentModel.model.setHour(this.hour)
     }
-    if(this.minute!=undefined) {
+    if (this.minute != undefined) {
       this.parentModel.model.setMinute(this.minute)
     }
-    this.inputSymbol= [this.keyboardSymbol, this.clockSymbol]
-    if(this.inputMethod!=undefined)
-      this.parentModel.setInputMethod(this.inputMethod)
-    if(this.clockFaceColor!=undefined)
-      this.parentModel.setClockFaceColor(this.clockFaceColor)
-    if(this.clockHandColor!=undefined)
-      this.parentModel.setClockHandColor(this.clockHandColor)
-    if(this.clockElementColor!=undefined)
-      this.parentModel.setClockElementColor(this.clockElementColor)
+    this.inputSymbol = [this.keyboardSymbol, this.clockSymbol]
+    if (this.inputMethod != undefined)
+    this.parentModel.setInputMethod(this.inputMethod)
+    if (this.clockFaceColor != undefined)
+    this.parentModel.setClockFaceColor(this.clockFaceColor)
+    if (this.clockHandColor != undefined)
+    this.parentModel.setClockHandColor(this.clockHandColor)
+    if (this.clockElementColor != undefined)
+    this.parentModel.setClockElementColor(this.clockElementColor)
   }
 
   build() {

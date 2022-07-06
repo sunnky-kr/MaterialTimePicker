@@ -48,9 +48,18 @@ struct TimePickerButton {
   width: number= 100
   controller: CustomDialogController= new CustomDialogController({
     builder: MaterialTimePicker({
+      //      format:TimeFormat.CLOCK_12H,
+      //      hour:10,
+      //      minute:30,
       cancel: this.cancel,
       confirm: (time: string) => this.submit2(time),
-      keyboardSymbol: $r("app.media.icon")
+      //      keyboardSymbol: $r("app.media.icon"),
+      //      clockSymbol:$r("app.media.clock"),
+      //      clockFaceColor:Color.Pink,
+      //      clockHandColor:Color.Green,
+      //      inputMethod:InputMethod.TextInputMethod,
+      //      clockElementColor:Color.Red,
+      //      title:"SELECT YOUR TIME"
     })
   })
 
