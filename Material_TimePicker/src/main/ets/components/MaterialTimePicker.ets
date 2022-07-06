@@ -15,7 +15,6 @@
  */
 
 import { TimePickerModel } from "./TimePickerModel"
-import { TimePickerComponent } from "./timepickercomponent"
 import { TimeFormat, InputMethod } from "./enums"
 import { ClockFaceComponent } from "./clockfacecomponent"
 import { ChipTextInputComboComponent } from "./chiptextinputcombocomponent"
@@ -76,11 +75,13 @@ export struct MaterialTimePicker {
           .width('95%')
           .height('100%')
           Row(){
-//            Image($r("app.media.close")).fillColor(Color.White)
             Text("x")
             .fontColor(this.titleFontColor)
-//            .fontWeight(FontWeight.Bold)
             .fontSize(25)
+            .onClick(() => {
+              this.cancel()
+              this.controller.close()
+            })
           }
           .width('5%')
           .height('100%')
