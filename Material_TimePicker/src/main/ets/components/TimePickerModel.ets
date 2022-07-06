@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2022 Application Library Engineering Group
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { TimeModel } from "./timemodel"
 import { ElementFormat, TimeFormat, InputMethod } from "./enums"
 
@@ -12,10 +28,10 @@ export class ElementPosition implements Position {
 }
 
 export class TimePickerModel {
-  private ElementOptions: number[][]= [
+  private ElementOptions: (number|string)[][]= [
     [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
-    [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]]
+    ['00', '05', 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]]
   private LeastCountOptions: number[]= [30, 15, 6]
   private leastCount: number= 30
   format: ElementFormat= ElementFormat.FORMAT_12H
@@ -23,20 +39,20 @@ export class TimePickerModel {
   clockHeight: number= 256
   clockWidth: number= 280
   handLength: number= 75
-  handColor: string | Color= "#5e00ff"
-  jointSize: number= 10
+  handColor: ResourceColor= "#5e00ff"
+  jointSize: number= 20
   pointerDiameter: number= 50
   startPoint: number[]
   endPoint: number[]
   pointerPosition: ElementPosition= new ElementPosition()
   elementCoverPosition: ElementPosition= new ElementPosition()
   clockFaceDiameter: number= 256
-  clockFaceColor: string | Color= "#e4e4e4"
-  elementColor: string | Color= Color.Black
+  clockFaceBackgroundColor: ResourceColor= "#e4e4e4"
+  clockNumberTextColor: ResourceColor= Color.Black
   elementPositionRadius: number= 100
   elementSize: number= 25
   numberOfElements: number= 12
-  elements: number[]= []
+  elements: (number|string)[]= []
   elementPositions: ElementPosition[]= []
   inputMethod: InputMethod= InputMethod.ClockInputMethod
   chipHeight: number
@@ -56,15 +72,15 @@ export class TimePickerModel {
     }
   }
 
-  setClockFaceColor(color: Color | string) {
-    this.clockFaceColor = color
+  setClockFaceBackgroundColor(color: ResourceColor) {
+    this.clockFaceBackgroundColor = color
   }
 
-  setClockElementColor(color: Color | string) {
-    this.elementColor = color
+  setClockNumberTextColor(color: ResourceColor) {
+    this.clockNumberTextColor = color
   }
 
-  setClockHandColor(color: Color | string) {
+  setClockHandColor(color: ResourceColor) {
     this.handColor = color
   }
 
@@ -152,7 +168,7 @@ export class TimePickerModel {
     this.handLength = length
   }
 
-  setHandColor(color: string | Color) {
+  setHandColor(color: ResourceColor) {
     this.handColor = color
   }
 

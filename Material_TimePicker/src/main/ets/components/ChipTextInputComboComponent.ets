@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2022 Application Library Engineering Group
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { TimePickerModel } from "./timepickermodel"
 import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./enums"
 
@@ -5,13 +21,13 @@ import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./enums"
 export struct ChipTextInputComboComponent {
   @Link timePickerModel: TimePickerModel
   @State selectedPeriod: number= 0
-  start1: Date
-  start2: Date
-  StateColors: (string | Color)[]= ["#ffd8ddff", "#e4e4e4"]
-  TimeStateColors: (string | Color)[]= ["#ff5e00ff", "#ff282828"]
-  periodBGColors: (string | Color)[]= ["#ffd8ddff", Color.White]
-  periodStateColors: (string | Color)[]= ["#ff5e00ff", "#ffabaaad"]
-  borderColor: string | Color= "#ffabaaad"
+  hourButtonClickTime: Date
+  minuteButtonClickTime: Date
+  StateColors: ResourceColor[]= ["#ffd8ddff", "#e4e4e4"]
+  TimeStateColors: ResourceColor[]= ["#ff5e00ff", "#ff282828"]
+  periodBGColors: ResourceColor[]= ["#ffd8ddff", Color.White]
+  periodStateColors: ResourceColor[]= ["#ff5e00ff", "#ffabaaad"]
+  borderColor: ResourceColor= "#ffabaaad"
 
   aboutToAppear() {
     if (this.timePickerModel.model.period == ClockPeriod.PM)
@@ -19,13 +35,14 @@ export struct ChipTextInputComboComponent {
   }
 
   build() {
-    Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center, alignContent: FlexAlign.Center }) {
+    Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start}) {
       Column({ space: 0 }) {
         Column() {
           TextInput({ text: (this.timePickerModel.model.formattedHour()) })
             .width('100%')
             .height('100%')
             .fontSize(50)
+            .align(Alignment.Center)
             .fontColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
             .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
             .enabled(this.timePickerModel.inputMethod == InputMethod.TextInputMethod)
@@ -41,37 +58,41 @@ export struct ChipTextInputComboComponent {
         .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
         .onClick(() => {
           this.timePickerModel.setFormat(ElementFormat.FORMAT_12H)
-          if (this.start1 == undefined) {
-            this.start1 = new Date()
+          if (this.hourButtonClickTime == undefined) {
+            this.hourButtonClickTime = new Date()
           }
           else {
             var end = new Date()
-            var delay: number = end.getTime() - this.start1.getTime()
+            var delay: number = end.getTime() - this.hourButtonClickTime.getTime()
             if (delay < 400)
             this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
 
-            this.start1 = end
+            this.hourButtonClickTime = end
           }
         })
 
 
         Text("Hour")
-          .height(20)
           .fontSize(12)
           .fontColor("#717171")
           .padding({ top: 8 })
           .visibility(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? Visibility.Visible : Visibility.None)
       }
       .width(96)
-      .height(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? 100 : 80)
+      .height('100%')
       .alignItems(HorizontalAlign.Start)
 
       Column() {
-        Text(":").fontWeight(FontWeight.Bolder).fontSize(60).fontFamily("Calibri")
+        Text(":")
+          .fontWeight(FontWeight.Bolder)
+          .fontSize(50)
+          .fontFamily("Calibri")
+          .height('90%')
       }
       .width(24)
       .height(80)
       .alignItems(HorizontalAlign.Center)
+      .alignSelf(ItemAlign.Start)
 
       Column({ space: 0 }) {
         Column() {
@@ -79,6 +100,7 @@ export struct ChipTextInputComboComponent {
             .width('100%')
             .height('100%')
             .fontSize(50)
+            .align(Alignment.Center)
             .fontColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
             .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
             .enabled(this.timePickerModel.inputMethod == InputMethod.TextInputMethod)
@@ -94,21 +116,20 @@ export struct ChipTextInputComboComponent {
         .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
         .onClick(() => {
           this.timePickerModel.setFormat(ElementFormat.FORMAT_MINUTE)
-          if (this.start2 == undefined) {
-            this.start2 = new Date()
+          if (this.minuteButtonClickTime == undefined) {
+            this.minuteButtonClickTime = new Date()
           }
           else {
             var end = new Date()
-            var delay: number = end.getTime() - this.start2.getTime()
+            var delay: number = end.getTime() - this.minuteButtonClickTime.getTime()
             if (delay < 400)
-            this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
+              this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
 
-            this.start2 = end
+            this.minuteButtonClickTime = end
           }
         })
 
         Text("Minute")
-          .height(20)
           .fontSize(12)
           .fontColor("#717171")
           .padding({ top: 8 })
@@ -116,11 +137,13 @@ export struct ChipTextInputComboComponent {
 
       }
       .width(96)
-      .height(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? 100 : 80)
+      .height('100%')
       .alignItems(HorizontalAlign.Start)
 
       Column() {
         Text("AM")
+          .fontWeight(FontWeight.Bolder)
+          .fontFamily('Calibri')
           .textAlign(TextAlign.Center)
           .fontSize(20)
           .fontColor(this.periodStateColors[this.selectedPeriod])
@@ -135,6 +158,8 @@ export struct ChipTextInputComboComponent {
           })
         Text("PM")
           .textAlign(TextAlign.Center)
+          .fontWeight(FontWeight.Bolder)
+          .fontFamily('Calibri')
           .fontSize(20)
           .fontColor(this.periodStateColors[1-this.selectedPeriod])
           .backgroundColor(this.periodBGColors[1-this.selectedPeriod])
@@ -157,6 +182,6 @@ export struct ChipTextInputComboComponent {
       .visibility(this.timePickerModel.model.format == TimeFormat.CLOCK_12H ? Visibility.Visible : Visibility.None)
     }
     .width(this.timePickerModel.model.format == TimeFormat.CLOCK_24H ? 228 : 280)
-    .height(80)
+    .height(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? 100 : 80)
   }
 }

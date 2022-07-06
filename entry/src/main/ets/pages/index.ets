@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2022 Application Library Engineering Group
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { MaterialTimePicker, TimeFormat, InputMethod } from "@ohos/material_timepicker"
 
 @Entry
@@ -44,22 +60,25 @@ struct DemoScreen {
 struct TimePickerButton {
   @State hour: string= new Date().getHours() + ""
   @State minute: string= new Date().getMinutes() + ""
-  @State time: string= this.hour + ":" + this.minute
+  @State time: string= ""
   width: number= 100
   controller: CustomDialogController= new CustomDialogController({
     builder: MaterialTimePicker({
-      //      format:TimeFormat.CLOCK_12H,
-      //      hour:10,
-      //      minute:30,
-      cancel: this.cancel,
-      confirm: (time: string) => this.submit2(time),
-      //      keyboardSymbol: $r("app.media.icon"),
-      //      clockSymbol:$r("app.media.clock"),
-      //      clockFaceColor:Color.Pink,
-      //      clockHandColor:Color.Green,
-      //      inputMethod:InputMethod.TextInputMethod,
-      //      clockElementColor:Color.Red,
-      //      title:"SELECT YOUR TIME"
+//            timeFormat:TimeFormat.CLOCK_12H,
+//            hour:10,
+//            minute:30,
+            cancel: this.cancel,
+            confirm: (time: string) => this.submit2(time),
+//            keyboardSymbol: $r("app.media.keyboard"),
+//            clockSymbol:$r("app.media.clock"),
+//            clockFaceBackgroundColor:Color.Pink,
+//            clockHandColor:Color.Green,
+//            inputMethod:InputMethod.TextInputMethod,
+//            clockNumberTextColor:Color.Red,
+//            textInputTitle:"SELECT YOUR TIME",
+//            clockInputTitle:"Enter your Time",
+//            titleBackgroundColor:Color.Yellow,
+//            titleFontColor:Color.White
     })
   })
 
@@ -85,7 +104,6 @@ struct TimePickerButton {
       .backgroundColor(Color.White)
       .width(50)
       .height(40)
-      .padding(0)
       .onClick(() => {
         this.controller.open()
       }

@@ -32,20 +32,24 @@ import { MaterialTimePicker, TimeFormat, InputMethod } from "@ohos/material_time
 ### Code
 To pickup from the Time Picker
 ```
+
 MaterialTimePicker({
-		format: (12H or 24H clock Format: TimeFormat type)
-		hour: (initial value of hour)
-		minute: (initial value of minute)
-		cancel: (function to call on clicking cancel button)
-		confirm: (function to call on clicking OK button)
-		keyboardSymbol: (resource for keyboard symbol)
-		clockSymbol: (resource for clock symbol)
-		clockFaceColor: (Clock Face Color)
-		clockHandColor: (Clock Hand Color)
-		inputMethod: (Input Method: Input Method Type)
-		clockElementColor: (Clock Elements Color)
-		title: (Time Picker Title)
-		})
+            timeFormat:TimeFormat.CLOCK_12H,
+            hour:10,
+            minute:30,
+            cancel: this.cancel,
+            confirm: (time: string) => this.submit2(time),
+            keyboardSymbol: $r("app.media.keyboard"),
+            clockSymbol:$r("app.media.clock"),
+            clockFaceBackgroundColor:Color.Pink,
+            clockHandColor:Color.Green,
+            inputMethod:InputMethod.TextInputMethod,
+            clockNumberTextColor:Color.Red,
+            textInputTitle:"SELECT YOUR TIME",
+            clockInputTitle:"Enter your Time",
+            titleBackgroundColor:Color.Yellow,
+            titleFontColor:Color.White
+            })
 ```
 
 ## Styling
@@ -54,18 +58,25 @@ You can style the viewer using these attributes :
 
 | Attribute  | Description  |
 | ------------ | ------------ |
-| clockFaceColor  | sets the color of the clock's face  |
-| clockHandColor   |  sets the color of clock's hand |
+| timeFormat | sets the 12H or 24H format   |
+| hour | sets the initial value of hour   |
+| minute | sets the initial value of minute   |
+| cancel | function to call on clicking cancel button   |
+| confirm | function to call on clicking OK button   |
 | keyboardSymbol  | Symbol for the keyboard icon |
 | clockSymbol  | symbol for the clock icon  |
-| format | sets the 12H or 24H format   |
+| clockFaceBackgroundColor  | sets the color of the background of clock's face  |
+| clockHandColor   |  sets the color of clock's hand |
 | inputMethod | sets the initial Input Method   |
-| clockElementColor | sets the color of clock's elements  |
-| title | sets the title of the Time Picker  |
+| clockNumberTextColor | sets the color of clock's elements  |
+| textInputTitle | sets the title of the Time Picker screen in Text Input Mode   |
+| clockInputTitle | sets the title of the Time Picker screen in Clock Input Mode   |
+| titleBackgroundColor | sets the background color of the title  |
+| titleFontColor | sets the font color of the title  |
 
 ## Compatibility
 ****
-Supports OpenHarmony API version 8
+Supports OpenHarmony API version 9
 ## Code Contribution
 ****
 If you find any problems during usage, you can submit an [issue](https://github.com/Applib-OpenHarmony/MaterialTimePicker/issues) to us. Of course, we also welcome you to send us PR.
