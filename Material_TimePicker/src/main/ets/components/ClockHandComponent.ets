@@ -65,7 +65,8 @@ export struct ClockHandComponent {
     .width(this.timePickerModel.clockWidth)
     .onTouch((event) => {
       if (event.type == TouchType.Up) {
-        this.timePickerModel.setRotation((180 * Math.atan2(event.touches[0].x - this.timePickerModel.clockWidth / 2, -event.touches[0].y + this.timePickerModel.clockHeight / 2)) / Math.PI, true)
+        var target: number = (180 * Math.atan2(event.touches[0].x - this.timePickerModel.clockWidth / 2, -event.touches[0].y + this.timePickerModel.clockHeight / 2)) / Math.PI
+        this.timePickerModel.setRotation(target, true)
         this.timePickerModel.update()
         setTimeout
         (
@@ -73,7 +74,7 @@ export struct ClockHandComponent {
           this.timePickerModel.setFormat(ElementFormat.FORMAT_MINUTE)
         }.bind(this),
           100
-        );
+        )
       }
       else {
         this.timePickerModel.setRotation((180 * Math.atan2(event.touches[0].x - this.timePickerModel.clockWidth / 2, -event.touches[0].y + this.timePickerModel.clockHeight / 2)) / Math.PI)

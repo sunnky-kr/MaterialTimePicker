@@ -35,7 +35,7 @@ export struct ChipTextInputComboComponent {
   }
 
   build() {
-    Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start}) {
+    Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
       Column({ space: 0 }) {
         Column() {
           TextInput({ text: (this.timePickerModel.model.formattedHour()) })
@@ -57,7 +57,7 @@ export struct ChipTextInputComboComponent {
         .borderColor(this.timePickerModel.format != ElementFormat.FORMAT_MINUTE && this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? "#ff5e00ff" : this.borderColor)
         .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
         .onClick(() => {
-          this.timePickerModel.setFormat(ElementFormat.FORMAT_12H)
+          this.timePickerModel.setFormat(this.timePickerModel.model.format == TimeFormat.CLOCK_12H ? ElementFormat.FORMAT_12H : ElementFormat.FORMAT_24H)
           if (this.hourButtonClickTime == undefined) {
             this.hourButtonClickTime = new Date()
           }
@@ -123,7 +123,7 @@ export struct ChipTextInputComboComponent {
             var end = new Date()
             var delay: number = end.getTime() - this.minuteButtonClickTime.getTime()
             if (delay < 400)
-              this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
+            this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
 
             this.minuteButtonClickTime = end
           }

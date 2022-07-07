@@ -64,21 +64,21 @@ struct TimePickerButton {
   width: number= 100
   controller: CustomDialogController= new CustomDialogController({
     builder: MaterialTimePicker({
-//            timeFormat:TimeFormat.CLOCK_12H,
-//            hour:10,
-//            minute:30,
-            cancel: this.cancel,
-            confirm: (time: string) => this.submit2(time),
-//            keyboardSymbol: $r("app.media.keyboard"),
-//            clockSymbol:$r("app.media.clock"),
-//            clockFaceBackgroundColor:Color.Pink,
-//            clockHandColor:Color.Green,
-//            inputMethod:InputMethod.TextInputMethod,
-//            clockNumberTextColor:Color.Red,
-//            textInputTitle:"SELECT YOUR TIME",
-//            clockInputTitle:"Enter your Time",
-//            titleBackgroundColor:Color.Yellow,
-//            titleFontColor:Color.White
+      //            timeFormat:TimeFormat.CLOCK_12H,
+      //            hour:10,
+      //            minute:30,
+      cancel: this.cancel,
+      confirm: (time: string) => this.submit2(time),
+      //            keyboardSymbol: $r("app.media.keyboard"),
+      //            clockSymbol:$r("app.media.clock"),
+      //            clockFaceBackgroundColor:Color.Pink,
+      //            clockHandColor:Color.Green,
+      //            inputMethod:InputMethod.TextInputMethod,
+      //            clockNumberTextColor:Color.Red,
+      //            textInputTitle:"SELECT YOUR TIME",
+      //            clockInputTitle:"Enter your Time",
+      //            titleBackgroundColor:Color.Yellow,
+      //            titleFontColor:Color.White
     })
   })
 

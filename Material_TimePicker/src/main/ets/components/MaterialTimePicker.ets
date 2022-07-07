@@ -34,11 +34,11 @@ export struct MaterialTimePicker {
   clockHandColor: ResourceColor
   clockNumberTextColor: ResourceColor
   clockInputTitle: string= "Select Time"
-  textInputTitle: string="Enter Time"
+  textInputTitle: string= "Enter Time"
   inputMethod: InputMethod
   inputSymbol: Resource[]
-  titleBackgroundColor: ResourceColor="#5e00ff"
-  titleFontColor: ResourceColor=Color.White
+  titleBackgroundColor: ResourceColor= "#5e00ff"
+  titleFontColor: ResourceColor= Color.White
 
   aboutToAppear() {
     this.timeFormat = this.timeFormat == undefined ? TimeFormat.CLOCK_12H : this.timeFormat
@@ -65,32 +65,34 @@ export struct MaterialTimePicker {
 
   build() {
     Column({ space: 0 }) {
+      Row() {
         Row() {
-          Row(){
-            Text(this.parentModel.inputMethod == InputMethod.TextInputMethod ? this.textInputTitle : this.clockInputTitle)
-              .fontColor(this.titleFontColor)
-              .fontWeight(FontWeight.Bolder)
-              .fontSize(12)
-          }
-          .width('95%')
-          .height('100%')
-          Row(){
-            Text("x")
+          Text(this.parentModel.inputMethod == InputMethod.TextInputMethod ? this.textInputTitle : this.clockInputTitle)
+            .fontColor(this.titleFontColor)
+            .fontWeight(FontWeight.Bolder)
+            .fontSize(12)
+        }
+        .width('95%')
+        .height('100%')
+
+        Row() {
+          Text("x")
             .fontColor(this.titleFontColor)
             .fontSize(25)
             .onClick(() => {
               this.cancel()
               this.controller.close()
             })
-          }
-          .width('5%')
-          .height('100%')
         }
-        .alignItems(VerticalAlign.Bottom)
-        .backgroundColor(this.titleBackgroundColor)
-        .height(28)
-        .width(280)
-      Column({space:24}) {
+        .width('5%')
+        .height('100%')
+      }
+      .alignItems(VerticalAlign.Bottom)
+      .backgroundColor(this.titleBackgroundColor)
+      .height(28)
+      .width(280)
+
+      Column({ space: 24 }) {
         Column({ space: 36 }) {
           ChipTextInputComboComponent({ timePickerModel: $parentModel })
           ClockFaceComponent({ timePickerModel: $parentModel })
@@ -143,8 +145,8 @@ export struct MaterialTimePicker {
       }
       .width('100%')
       .backgroundColor(Color.White)
-      .height(this.parentModel.totalHeight-28)
-      .padding({top:24})
+      .height(this.parentModel.totalHeight - 28)
+      .padding({ top: 24 })
       .alignItems(HorizontalAlign.Center)
     }
     .clip(true)

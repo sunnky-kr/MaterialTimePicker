@@ -20,15 +20,14 @@ import { ElementFormat, TimeFormat, InputMethod } from "./enums"
 export class ElementPosition implements Position {
   x: number;
   y: number;
-
-  ElementPosition(x: number, y: number) {
+  constructor(x?: number, y?: number) {
     this.x = x != undefined ? x : 0;
     this.y = y != undefined ? y : 0;
   }
 }
 
 export class TimePickerModel {
-  private ElementOptions: (number|string)[][]= [
+  private ElementOptions: (number | string)[][]= [
     [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
     ['00', '05', 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]]
@@ -52,7 +51,7 @@ export class TimePickerModel {
   elementPositionRadius: number= 100
   elementSize: number= 25
   numberOfElements: number= 12
-  elements: (number|string)[]= []
+  elements: (number | string)[]= []
   elementPositions: ElementPosition[]= []
   inputMethod: InputMethod= InputMethod.ClockInputMethod
   chipHeight: number
@@ -127,65 +126,52 @@ export class TimePickerModel {
     }
   }
 
+  transit(from: number, to: number) {
+    if (Math.abs(from - to) > 0) {
+      setTimeout(
+        () => {
+          var target: number = (360 + to - from) % 360 <= 180 ? (from + 3) % 360 : (from + 357) % 360
+          this.setRotation(target, false, false)
+          this.update()
+          this.transit(target, to)
+        },
+        0.98
+      )
+    }
+
+  }
+
   setFormat(format: ElementFormat) {
     if (this.format != format) {
       this.format = format
       this.elements = this.ElementOptions[format]
       this.leastCount = this.LeastCountOptions[format]
-      this.setRotation(this.getRotation())
-      this.update()
+      var target: number = this.getRotation()
+      this.transit(this.rotation, target)
     }
 
   }
 
-  setRotation(degrees: number, dropped: boolean=false) {
+  setRotation(degrees: number, dropped: boolean=false, changeTime: boolean=true) {
     degrees %= 360
     if (degrees < 0)
     degrees += 360
     this.rotation = degrees
+    if (dropped) {
+      this.rotation = this.finalRotation(this.rotation)
+    }
+    if (!changeTime)
+    return
     if (this.format != ElementFormat.FORMAT_MINUTE) {
       this.model.setHour(Math.round(degrees / this.leastCount))
     }
     else {
       this.model.setMinute(Math.round(degrees / this.leastCount))
     }
-    if (dropped) {
-      this.rotation = this.finalRotation(this.rotation)
-    }
   }
 
   finalRotation(degrees: number) {
     return Math.round(degrees / this.leastCount) * this.leastCount
-  }
-
-  setTime(hour: number, minute: number) {
-    this.model.setHour(hour)
-    this.model.setMinute(minute)
-    this.rotation = this.model.hour * 30 + this.model.minute * 0.5
-  }
-
-  setHandLength(length: number) {
-    this.handLength = length
-  }
-
-  setHandColor(color: ResourceColor) {
-    this.handColor = color
-  }
-
-  setJointSize(size: number) {
-    this.jointSize = size
-  }
-
-  setPointerDiameter(diameter: number) {
-    this.pointerDiameter = diameter
-  }
-
-  setHeight(height: number) {
-    this.clockHeight = height
-  }
-
-  setWidth(width: number) {
-    this.clockWidth = width
   }
 
   initialize() {
@@ -197,9 +183,7 @@ export class TimePickerModel {
   updateElementPositions() {
     this.elementPositions = Array(this.numberOfElements).fill(1).map((_, idx) => {
       var angle: number = (idx * 360 * Math.PI) / (180 * this.numberOfElements);
-      var pos: ElementPosition = new ElementPosition();
-      pos.x = this.clockWidth / 2 + this.elementPositionRadius * Math.sin(angle) - this.elementSize / 2
-      pos.y = this.clockHeight / 2 - this.elementPositionRadius * Math.cos(angle) - this.elementSize / 2
+      var pos: ElementPosition = new ElementPosition(this.clockWidth / 2 + this.elementPositionRadius * Math.sin(angle) - this.elementSize / 2, this.clockHeight / 2 - this.elementPositionRadius * Math.cos(angle) - this.elementSize / 2);
       return pos
     })
   }

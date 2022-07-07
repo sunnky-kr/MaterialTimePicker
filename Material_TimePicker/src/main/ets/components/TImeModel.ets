@@ -29,6 +29,8 @@ export class TimeModel {
   }
 
   public setHour(hour: number) {
+    if (hour < 0 || hour > 24)
+    return
     if (this.format == TimeFormat.CLOCK_24H) {
       this.hour = hour % 24
     }
@@ -38,6 +40,8 @@ export class TimeModel {
   }
 
   public setHourOfDay(hour: number) {
+    if (hour < 0 || hour > 24)
+    return
     hour %= 24
     this.period = hour >= 12 ? ClockPeriod.PM : ClockPeriod.AM
     this.hour = hour
@@ -45,7 +49,7 @@ export class TimeModel {
 
   public getHourForDisplay() {
     if (this.format == TimeFormat.CLOCK_24H) {
-      return this.hour % 24
+      return this.hour
     }
     if ((this.hour % 12) == 0) {
       return 12
@@ -69,6 +73,7 @@ export class TimeModel {
   }
 
   public setMinute(minute: number) {
+    if (minute >= 0 && minute <= 60)
     this.minute = minute % 60
   }
 

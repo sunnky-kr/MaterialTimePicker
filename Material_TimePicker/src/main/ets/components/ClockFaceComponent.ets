@@ -47,7 +47,10 @@ export struct RadialContainer {
     Flex() {
       ForEach(this.timePickerModel.elements, (element, idx) => {
         Column() {
-          Text(element + "").fontSize(20).alignSelf(ItemAlign.Center).fontColor(this.timePickerModel.clockNumberTextColor)
+          Text(element + "")
+            .fontSize(20)
+            .alignSelf(ItemAlign.Center)
+            .fontColor(this.timePickerModel.clockNumberTextColor)
         }
         .height(this.timePickerModel.elementSize)
         .width(this.timePickerModel.elementSize)
