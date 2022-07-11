@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { MaterialTimePicker, TimeFormat, InputMethod } from "@ohos/material_timepicker"
+import { MaterialTimePicker, TimeFormat, InputMethod, TimePickerOptions } from "@ohos/material_timepicker"
 
 @Entry
 @Component
@@ -22,37 +22,37 @@ struct DemoScreen {
   build() {
 
     Flex({ direction: FlexDirection.Column, alignContent: FlexAlign.SpaceBetween }) {
-      Column({ space: 25 }) {
-        Text("Select Time").fontSize(20)
-        TimePickerButton({ width: 280 })
+      Column({ space: '25vp' }) {
+        Text("Select Time").fontSize('20fp')
+        TimePickerButton({ width: '280vp' })
       }
       .alignItems(HorizontalAlign.Start)
 
-      Column({ space: 25 }) {
-        Text("Select range").fontSize(20)
-        Row({ space: 10 }) {
-          Column({ space: 10 }) {
-            Text("Start").fontSize(12)
-            TimePickerButton({ width: 120 })
+      Column({ space: '25vp' }) {
+        Text("Select range").fontSize('20fp')
+        Row({ space: '10vp' }) {
+          Column({ space: '10vp' }) {
+            Text("Start").fontSize('12fp')
+            TimePickerButton({ width: '120vp' })
           }
-          .width(170)
+          .width('170vp')
           .alignItems(HorizontalAlign.Start)
 
-          Column({ space: 10 }) {
-            Text("End").fontSize(12)
-            TimePickerButton({ width: 120 })
+          Column({ space: '10vp' }) {
+            Text("End").fontSize('12fp')
+            TimePickerButton({ width: '120vp' })
           }
-          .width(170)
+          .width('170vp')
           .alignItems(HorizontalAlign.Start)
         }
 
       }
       .alignItems(HorizontalAlign.Start)
-      .width(350)
+      .width('350vp')
     }
     .width("40%")
     .height("100%")
-    .padding({ top: 50, left: 20 })
+    .padding({ top: '50vp', left: '20vp' })
   }
 }
 
@@ -61,24 +61,26 @@ struct TimePickerButton {
   @State hour: string= new Date().getHours() + ""
   @State minute: string= new Date().getMinutes() + ""
   @State time: string= ""
-  width: number= 100
+  width: Length= '100vp'
   controller: CustomDialogController= new CustomDialogController({
     builder: MaterialTimePicker({
-      //            timeFormat:TimeFormat.CLOCK_12H,
-      //            hour:10,
-      //            minute:30,
-      cancel: this.cancel,
-      confirm: (time: string) => this.submit2(time),
-      //            keyboardSymbol: $r("app.media.keyboard"),
-      //            clockSymbol:$r("app.media.clock"),
-      //            clockFaceBackgroundColor:Color.Pink,
-      //            clockHandColor:Color.Green,
-      //            inputMethod:InputMethod.TextInputMethod,
-      //            clockNumberTextColor:Color.Red,
-      //            textInputTitle:"SELECT YOUR TIME",
-      //            clockInputTitle:"Enter your Time",
-      //            titleBackgroundColor:Color.Yellow,
-      //            titleFontColor:Color.White
+      options: {
+        //                timeFormat: TimeFormat.CLOCK_24H,
+        //                hour:10,
+        //                minute:30,
+        cancel: this.cancel,
+        confirm: (time: string) => this.submit2(time),
+        //                keyboardSymbol: $r("app.media.keyboard"),
+        //                clockSymbol:$r("app.media.clock"),
+        //                clockFaceBackgroundColor:Color.Pink,
+        //                clockHandColor:Color.Green,
+        //                inputMethod:InputMethod.TextInputMethod,
+        //                clockNumberTextColor:Color.Red,
+        //                textInputTitle:"SELECT YOUR TIME",
+        //                clockInputTitle:"Enter your Time",
+        //                titleBackgroundColor:Color.Yellow,
+        //                titleFontColor:Color.White
+      }
     })
   })
 
@@ -99,11 +101,11 @@ struct TimePickerButton {
       TextArea({ text: this.time }).width(this.width)
       Button({ type: ButtonType.Capsule }) {
 
-        Image($r("app.media.clock")).width(30).height(30)
+        Image($r("app.media.clock")).width('30vp').height('30vp')
       }
       .backgroundColor(Color.White)
-      .width(50)
-      .height(40)
+      .width('50vp')
+      .height('40vp')
       .onClick(() => {
         this.controller.open()
       }

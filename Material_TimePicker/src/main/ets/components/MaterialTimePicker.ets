@@ -15,72 +15,40 @@
  */
 
 import { TimePickerModel } from "./TimePickerModel"
-import { TimeFormat, InputMethod } from "./enums"
+import { InputMethod, TimePickerOptions } from "./Types"
 import { ClockFaceComponent } from "./clockfacecomponent"
 import { ChipTextInputComboComponent } from "./chiptextinputcombocomponent"
 
 @CustomDialog
 export struct MaterialTimePicker {
   @State parentModel: TimePickerModel= undefined
-  timeFormat: TimeFormat
-  hour: number
-  minute: number
-  controller: CustomDialogController
-  cancel: () => void
-  confirm: (time: string) => void
-  keyboardSymbol: Resource= $r("app.media.keyboard")
-  clockSymbol: Resource= $r("app.media.clock")
-  clockFaceBackgroundColor: ResourceColor
-  clockHandColor: ResourceColor
-  clockNumberTextColor: ResourceColor
-  clockInputTitle: string= "Select Time"
-  textInputTitle: string= "Enter Time"
-  inputMethod: InputMethod
-  inputSymbol: Resource[]
-  titleBackgroundColor: ResourceColor= "#5e00ff"
-  titleFontColor: ResourceColor= Color.White
+  private options: TimePickerOptions
+  private controller: CustomDialogController
 
   aboutToAppear() {
-    this.timeFormat = this.timeFormat == undefined ? TimeFormat.CLOCK_12H : this.timeFormat
     if (this.parentModel == undefined) {
-      this.parentModel = new TimePickerModel(new Date().getHours(), new Date().getMinutes(), this.timeFormat)
+      this.parentModel = new TimePickerModel(this.options)
     }
-    this.parentModel.setClockFormat(this.timeFormat)
-    if (this.hour != undefined) {
-      this.parentModel.model.setHour(this.hour)
-    }
-    if (this.minute != undefined) {
-      this.parentModel.model.setMinute(this.minute)
-    }
-    this.inputSymbol = [this.keyboardSymbol, this.clockSymbol]
-    if (this.inputMethod != undefined)
-    this.parentModel.setInputMethod(this.inputMethod)
-    if (this.clockFaceBackgroundColor != undefined)
-    this.parentModel.setClockFaceBackgroundColor(this.clockFaceBackgroundColor)
-    if (this.clockHandColor != undefined)
-    this.parentModel.setClockHandColor(this.clockHandColor)
-    if (this.clockNumberTextColor != undefined)
-    this.parentModel.setClockNumberTextColor(this.clockNumberTextColor)
   }
 
   build() {
-    Column({ space: 0 }) {
+    Column({ space: '0vp' }) {
       Row() {
         Row() {
-          Text(this.parentModel.inputMethod == InputMethod.TextInputMethod ? this.textInputTitle : this.clockInputTitle)
-            .fontColor(this.titleFontColor)
+          Text(this.parentModel.inputMethod == InputMethod.TextInputMethod ? this.parentModel.textInputTitle : this.parentModel.clockInputTitle)
+            .fontColor(this.parentModel.titleFontColor)
             .fontWeight(FontWeight.Bolder)
-            .fontSize(12)
+            .fontSize('12fp')
         }
         .width('95%')
         .height('100%')
 
         Row() {
           Text("x")
-            .fontColor(this.titleFontColor)
-            .fontSize(25)
+            .fontColor(this.parentModel.titleFontColor)
+            .fontSize('25fp')
             .onClick(() => {
-              this.cancel()
+              this.parentModel.cancel()
               this.controller.close()
             })
         }
@@ -88,72 +56,72 @@ export struct MaterialTimePicker {
         .height('100%')
       }
       .alignItems(VerticalAlign.Bottom)
-      .backgroundColor(this.titleBackgroundColor)
-      .height(28)
-      .width(280)
+      .backgroundColor(this.parentModel.titleBackgroundColor)
+      .height('28vp')
+      .width('280vp')
 
-      Column({ space: 24 }) {
-        Column({ space: 36 }) {
+      Column({ space: '24vp' }) {
+        Column({ space: '36vp' }) {
           ChipTextInputComboComponent({ timePickerModel: $parentModel })
           ClockFaceComponent({ timePickerModel: $parentModel })
         }
         .height(this.parentModel.chipHeight)
-        .width(280)
+        .width('280vp')
 
-        Row({ space: 118 }) {
+        Row({ space: '118vp' }) {
           Button({ type: ButtonType.Normal }) {
-            Image(this.parentModel.inputMethod == InputMethod.ClockInputMethod ? this.inputSymbol[0] : this.inputSymbol[1])
-              .width(24)
-              .height(24)
+            Image(this.parentModel.inputMethod == InputMethod.ClockInputMethod ? this.parentModel.inputSymbol[0] : this.parentModel.inputSymbol[1])
+              .width('24vp')
+              .height('24vp')
           }
-          .height(44)
-          .width(44)
+          .height('44vp')
+          .width('44vp')
           .backgroundColor(Color.White)
           .onClick(() => {
             this.parentModel.setInputMethod(1 - this.parentModel.inputMethod)
           })
 
-          Row({ space: 8 }) {
+          Row({ space: '8vp' }) {
             Button("CANCEL")
-              .fontSize(16)
+              .fontSize('16fp')
               .type(ButtonType.Normal)
-              .height(36)
-              .padding({ left: 2, right: 2, top: 10, bottom: 10 })
+              .height('36vp')
+              .padding({ left: '2vp', right: '2vp', top: '10vp', bottom: '10vp' })
               .backgroundColor(Color.White)
               .fontColor("#9d9d9d")
               .onClick(() => {
-                this.cancel()
+                this.parentModel.cancel()
                 this.controller.close()
               })
             Button("OK")
               .type(ButtonType.Normal)
-              .height(36)
+              .height('36vp')
               .backgroundColor("#5e00ff")
               .fontColor(Color.White)
-              .borderRadius(2)
+              .borderRadius('2vp')
               .onClick(() => {
-                this.confirm(this.parentModel.model.getTimeForDisplay())
+                this.parentModel.confirm(this.parentModel.model.getTimeForDisplay())
                 this.controller.close()
               })
           }
-          .width(144)
-          .height(36)
+          .width('144vp')
+          .height('36vp')
         }
-        .height(52)
+        .height('52vp')
         .width("100%")
-        .padding({ left: 12, right: 8 })
+        .padding({ left: '12vp', right: '8vp' })
       }
       .width('100%')
       .backgroundColor(Color.White)
-      .height(this.parentModel.totalHeight - 28)
-      .padding({ top: 24 })
+      .height(this.parentModel.bodyHeight)
+      .padding({ top: '24vp' })
       .alignItems(HorizontalAlign.Center)
     }
     .clip(true)
-    .borderRadius(24)
+    .borderRadius('24vp')
     .width('100%')
-    .height(this.parentModel.totalHeight)
+    .height(this.parentModel.totalHeight + "vp")
     .alignItems(HorizontalAlign.Center)
-    .backgroundColor(this.titleBackgroundColor)
+    .backgroundColor(this.parentModel.titleBackgroundColor)
   }
 }

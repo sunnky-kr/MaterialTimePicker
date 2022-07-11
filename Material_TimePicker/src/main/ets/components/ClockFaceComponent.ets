@@ -16,7 +16,7 @@
 
 import { TimePickerModel } from "./timepickermodel"
 import { ClockHandComponent } from './clockhandcomponent'
-import { InputMethod } from "./enums"
+import { InputMethod } from "./Types"
 
 @Component
 export struct ClockFaceComponent {
@@ -30,7 +30,7 @@ export struct ClockFaceComponent {
       ClockHandComponent({ timePickerModel: $timePickerModel })
     }
     .width(this.timePickerModel.clockWidth)
-    .height(this.timePickerModel.clockHeight)
+    .height(this.timePickerModel.clockHeight + "vp")
     .visibility(this.timePickerModel.inputMethod == InputMethod.ClockInputMethod ? Visibility.Visible : Visibility.None)
   }
 }
@@ -48,16 +48,16 @@ export struct RadialContainer {
       ForEach(this.timePickerModel.elements, (element, idx) => {
         Column() {
           Text(element + "")
-            .fontSize(20)
+            .fontSize('20fp')
             .alignSelf(ItemAlign.Center)
             .fontColor(this.timePickerModel.clockNumberTextColor)
         }
-        .height(this.timePickerModel.elementSize)
-        .width(this.timePickerModel.elementSize)
+        .height(this.timePickerModel.elementSize + 'vp')
+        .width(this.timePickerModel.elementSize + 'vp')
         .position(this.timePickerModel.elementPositions[idx])
         .alignItems(HorizontalAlign.Center)
       })
     }
-    .height(this.timePickerModel.clockHeight).width(this.timePickerModel.clockWidth)
+    .height('100%').width('100%')
   }
 }

@@ -29,3 +29,21 @@ export enum ClockPeriod {
 export enum TimeFormat {
   CLOCK_12H, CLOCK_24H
 }
+
+export interface TimePickerOptions {
+  timeFormat?: TimeFormat
+  hour?: number
+  minute?: number
+  cancel?: () => void
+  confirm?: (string) => void
+  keyboardSymbol?: Resource
+  clockSymbol?: Resource
+  clockFaceBackgroundColor?: ResourceColor
+  clockHandColor?: ResourceColor
+  clockNumberTextColor?: ResourceColor
+  clockInputTitle?: string
+  textInputTitle?: string
+  inputMethod?: InputMethod
+  titleBackgroundColor?: ResourceColor
+  titleFontColor?: ResourceColor
+}

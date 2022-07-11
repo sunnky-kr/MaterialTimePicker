@@ -15,7 +15,7 @@
  */
 
 import { TimeModel } from "./timemodel"
-import { ElementFormat, TimeFormat, InputMethod } from "./enums"
+import { ElementFormat, TimeFormat, InputMethod, TimePickerOptions } from "./Types"
 
 export class ElementPosition implements Position {
   x: number;
@@ -39,13 +39,13 @@ export class TimePickerModel {
   clockWidth: number= 280
   handLength: number= 75
   handColor: ResourceColor= "#5e00ff"
-  jointSize: number= 20
+  jointSize: string | number= '20vp'
   pointerDiameter: number= 50
   startPoint: number[]
   endPoint: number[]
   pointerPosition: ElementPosition= new ElementPosition()
   elementCoverPosition: ElementPosition= new ElementPosition()
-  clockFaceDiameter: number= 256
+  clockFaceDiameter: string | number= '256vp'
   clockFaceBackgroundColor: ResourceColor= "#e4e4e4"
   clockNumberTextColor: ResourceColor= Color.Black
   elementPositionRadius: number= 100
@@ -54,14 +54,56 @@ export class TimePickerModel {
   elements: (number | string)[]= []
   elementPositions: ElementPosition[]= []
   inputMethod: InputMethod= InputMethod.ClockInputMethod
-  chipHeight: number
+  chipHeight: Length
   totalHeight: number
+  bodyHeight: Length
   model: TimeModel
+  //MaterialTimePickerParameters
+  cancel: () => void= () => {
+  }
+  confirm: (string) => void= (time: string) => time
+  clockInputTitle?: string= "Select Time"
+  textInputTitle?: string= "Enter Time"
+  titleBackgroundColor?: ResourceColor= "#5e00ff"
+  titleFontColor?: ResourceColor= Color.White
+  inputSymbol: Resource[]= [$r("app.media.keyboard"), $r("app.media.clock")]
 
-  constructor(hour: number=new Date().getHours(), minute: number=new Date().getMinutes(), format: TimeFormat=TimeFormat.CLOCK_24H) {
-    this.model = new TimeModel(hour, minute, format)
+  constructor(options: TimePickerOptions) {
+    this.setDefault()
+    if (options != undefined) this.updateParams(options)
     this.setRotation(this.getRotation())
     this.update()
+  }
+
+  setDefault() {
+    this.model = new TimeModel(new Date().getHours(), new Date().getMinutes(), TimeFormat.CLOCK_12H)
+  }
+
+  updateParams(options: TimePickerOptions) {
+    if (options.timeFormat != undefined) this.setClockFormat(options.timeFormat)
+    if (options.hour != undefined) this.model.setHour(options.hour)
+    if (options.minute != undefined) this.model.setMinute(options.minute)
+    if (options.cancel != undefined) this.cancel = options.cancel
+    if (options.confirm != undefined) this.confirm = options.confirm
+    if (options.keyboardSymbol != undefined) this.setKeyboardSymbol(options.keyboardSymbol)
+    if (options.clockSymbol != undefined) this.setClockSymbol(options.clockSymbol)
+    if (options.clockFaceBackgroundColor != undefined) this.setClockFaceBackgroundColor(options.clockFaceBackgroundColor)
+    if (options.clockHandColor != undefined) this.setClockHandColor(options.clockHandColor)
+    if (options.clockNumberTextColor != undefined) this.setClockNumberTextColor(options.clockNumberTextColor)
+    if (options.clockInputTitle != undefined) this.clockInputTitle = options.clockInputTitle
+    if (options.textInputTitle != undefined) this.textInputTitle = options.textInputTitle
+    if (options.inputMethod != undefined) this.setInputMethod(options.inputMethod)
+    if (options.titleBackgroundColor != undefined) this.titleBackgroundColor = options.titleBackgroundColor
+    if (options.titleFontColor != undefined) this.titleFontColor = options.titleFontColor
+
+  }
+
+  setKeyboardSymbol(keyBoardSymbol: Resource) {
+    this.inputSymbol[0] = keyBoardSymbol
+  }
+
+  setClockSymbol(clockSymbol: Resource) {
+    this.inputSymbol[1] = clockSymbol
   }
 
   setInputMethod(method: InputMethod) {
@@ -108,8 +150,9 @@ export class TimePickerModel {
   }
 
   updateHeight() {
-    this.chipHeight = this.inputMethod == InputMethod.TextInputMethod ? 100 : 372
+    this.chipHeight = this.inputMethod == InputMethod.TextInputMethod ? '100vp' : '372vp'
     this.totalHeight = this.inputMethod == InputMethod.TextInputMethod ? 228 : 500
+    this.bodyHeight = this.totalHeight - 28 + "vp"
   }
 
   update() {

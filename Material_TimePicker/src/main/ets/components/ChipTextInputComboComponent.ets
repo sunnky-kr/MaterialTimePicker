@@ -15,7 +15,7 @@
  */
 
 import { TimePickerModel } from "./timepickermodel"
-import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./enums"
+import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./Types"
 
 @Component
 export struct ChipTextInputComboComponent {
@@ -36,12 +36,12 @@ export struct ChipTextInputComboComponent {
 
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
-      Column({ space: 0 }) {
+      Column({ space: '0vp' }) {
         Column() {
           TextInput({ text: (this.timePickerModel.model.formattedHour()) })
             .width('100%')
             .height('100%')
-            .fontSize(50)
+            .fontSize('50fp')
             .align(Alignment.Center)
             .fontColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
             .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
@@ -51,9 +51,9 @@ export struct ChipTextInputComboComponent {
             })
         }
         .width('100%')
-        .height(80)
-        .borderRadius(2)
-        .borderWidth(2)
+        .height('80vp')
+        .borderRadius('2vp')
+        .borderWidth('2vp')
         .borderColor(this.timePickerModel.format != ElementFormat.FORMAT_MINUTE && this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? "#ff5e00ff" : this.borderColor)
         .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
         .onClick(() => {
@@ -73,33 +73,33 @@ export struct ChipTextInputComboComponent {
 
 
         Text("Hour")
-          .fontSize(12)
+          .fontSize('12fp')
           .fontColor("#717171")
-          .padding({ top: 8 })
+          .padding({ top: '8vp' })
           .visibility(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? Visibility.Visible : Visibility.None)
       }
-      .width(96)
+      .width('96vp')
       .height('100%')
       .alignItems(HorizontalAlign.Start)
 
       Column() {
         Text(":")
           .fontWeight(FontWeight.Bolder)
-          .fontSize(50)
+          .fontSize('50fp')
           .fontFamily("Calibri")
           .height('90%')
       }
-      .width(24)
-      .height(80)
+      .width('24vp')
+      .height('80vp')
       .alignItems(HorizontalAlign.Center)
       .alignSelf(ItemAlign.Start)
 
-      Column({ space: 0 }) {
+      Column({ space: '0vp' }) {
         Column() {
           TextInput({ text: (this.timePickerModel.model.formattedMinute()) })
             .width('100%')
             .height('100%')
-            .fontSize(50)
+            .fontSize('50fp')
             .align(Alignment.Center)
             .fontColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
             .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
@@ -109,9 +109,9 @@ export struct ChipTextInputComboComponent {
             })
         }
         .width('100%')
-        .height(80)
-        .borderRadius(2)
-        .borderWidth(2)
+        .height('80vp')
+        .borderRadius('2vp')
+        .borderWidth('2vp')
         .borderColor(this.timePickerModel.format == ElementFormat.FORMAT_MINUTE && this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? "#ff5e00ff" : this.borderColor)
         .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
         .onClick(() => {
@@ -130,13 +130,13 @@ export struct ChipTextInputComboComponent {
         })
 
         Text("Minute")
-          .fontSize(12)
+          .fontSize('12fp')
           .fontColor("#717171")
-          .padding({ top: 8 })
+          .padding({ top: '8vp' })
           .visibility(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? Visibility.Visible : Visibility.None)
 
       }
-      .width(96)
+      .width('96vp')
       .height('100%')
       .alignItems(HorizontalAlign.Start)
 
@@ -145,13 +145,13 @@ export struct ChipTextInputComboComponent {
           .fontWeight(FontWeight.Bolder)
           .fontFamily('Calibri')
           .textAlign(TextAlign.Center)
-          .fontSize(20)
+          .fontSize('20fp')
           .fontColor(this.periodStateColors[this.selectedPeriod])
           .backgroundColor(this.periodBGColors[this.selectedPeriod])
           .width('95%')
           .height('46.5%')
           .clip(true)
-          .margin(2)
+          .margin('2vp')
           .onClick(() => {
             this.selectedPeriod = 0
             this.timePickerModel.model.setPeriod(ClockPeriod.AM)
@@ -160,28 +160,28 @@ export struct ChipTextInputComboComponent {
           .textAlign(TextAlign.Center)
           .fontWeight(FontWeight.Bolder)
           .fontFamily('Calibri')
-          .fontSize(20)
+          .fontSize('20fp')
           .fontColor(this.periodStateColors[1-this.selectedPeriod])
           .backgroundColor(this.periodBGColors[1-this.selectedPeriod])
           .width('95%')
           .height('46.5%')
           .clip(true)
-          .margin({ bottom: 2, left: 2, right: 2 })
+          .margin({ bottom: '2vp', left: '2vp', right: '2vp' })
           .onClick(() => {
             this.selectedPeriod = 1
             this.timePickerModel.model.setPeriod(ClockPeriod.PM)
           })
 
       }
-      .width(52)
-      .height(80)
-      .borderRadius(2)
+      .width('52vp')
+      .height('80vp')
+      .borderRadius('2vp')
       .borderColor(this.borderColor)
       .backgroundColor(this.borderColor)
-      .margin({ left: 12 })
+      .margin({ left: '12vp' })
       .visibility(this.timePickerModel.model.format == TimeFormat.CLOCK_12H ? Visibility.Visible : Visibility.None)
     }
-    .width(this.timePickerModel.model.format == TimeFormat.CLOCK_24H ? 228 : 280)
-    .height(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? 100 : 80)
+    .width(this.timePickerModel.model.format == TimeFormat.CLOCK_24H ? '228vp' : '280vp')
+    .height(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? '100vp' : '80vp')
   }
 }

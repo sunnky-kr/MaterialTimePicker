@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ClockPeriod, TimeFormat } from "./enums"
+import { ClockPeriod, TimeFormat } from "./Types"
 
 export class TimeModel {
   hour: number
@@ -29,8 +29,7 @@ export class TimeModel {
   }
 
   public setHour(hour: number) {
-    if (hour < 0 || hour > 24)
-    return
+    if (hour < 0 || hour > 24)  return
     if (this.format == TimeFormat.CLOCK_24H) {
       this.hour = hour % 24
     }
@@ -40,8 +39,7 @@ export class TimeModel {
   }
 
   public setHourOfDay(hour: number) {
-    if (hour < 0 || hour > 24)
-    return
+    if (hour < 0 || hour > 24)  return
     hour %= 24
     this.period = hour >= 12 ? ClockPeriod.PM : ClockPeriod.AM
     this.hour = hour

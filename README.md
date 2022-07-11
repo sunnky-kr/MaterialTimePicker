@@ -21,6 +21,8 @@ import { MaterialTimePicker, TimeFormat, InputMethod } from "@ohos/material_time
 ```
 ## Screenshots
 ****
+![CLOCK INPUT MODE IN 12H FORMAT](./Images/12H_CLOCKINPUTMODE.png) ![TEXT INPUT MODE IN 12H FORMAT](./Images/12H_TEXTINPUTMODE.png)
+![CLOCK INPUT MODE IN 24H FORMAT](./Images/24H_CLOCKINPUTMODE.png) ![TEXT INPUT MODE IN 24H FORMAT](./Images/24H_TEXTINPUTMODE.png)
 
 ## How to use it
 ***
@@ -34,22 +36,24 @@ To pickup from the Time Picker
 ```
 
 MaterialTimePicker({
-            timeFormat:TimeFormat.CLOCK_12H,
-            hour:10,
-            minute:30,
-            cancel: this.cancel,
-            confirm: (time: string) => this.submit2(time),
-            keyboardSymbol: $r("app.media.keyboard"),
-            clockSymbol:$r("app.media.clock"),
-            clockFaceBackgroundColor:Color.Pink,
-            clockHandColor:Color.Green,
-            inputMethod:InputMethod.TextInputMethod,
-            clockNumberTextColor:Color.Red,
-            textInputTitle:"SELECT YOUR TIME",
-            clockInputTitle:"Enter your Time",
-            titleBackgroundColor:Color.Yellow,
-            titleFontColor:Color.White
-            })
+              options: {
+                timeFormat: TimeFormat.CLOCK_24H,
+                hour:10,
+                minute:30,
+                cancel: this.cancel,
+                confirm: (time: string) => this.submit2(time),
+                keyboardSymbol: $r("app.media.keyboard"),
+                clockSymbol:$r("app.media.clock"),
+                clockFaceBackgroundColor:Color.Pink,
+                clockHandColor:Color.Green,
+                inputMethod:InputMethod.TextInputMethod,
+                clockNumberTextColor:Color.Red,
+                textInputTitle:"SELECT YOUR TIME",
+                clockInputTitle:"Enter your Time",
+                titleBackgroundColor:Color.Yellow,
+                titleFontColor:Color.White
+              }
+    })
 ```
 
 ## Styling
