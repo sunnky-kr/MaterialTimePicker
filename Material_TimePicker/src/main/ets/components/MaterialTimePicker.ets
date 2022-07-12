@@ -103,7 +103,7 @@ export struct MaterialTimePicker {
               .fontColor(Color.White)
               .borderRadius('2vp')
               .onClick(() => {
-                this.parentModel.confirm(this.parentModel.model.getTimeForDisplay())
+                this.parentModel.onPositiveButtonClick(this.parentModel.model.getTimeForDisplay())
                 this.parentModel.onDismiss()
                 this.controller.close()
               })

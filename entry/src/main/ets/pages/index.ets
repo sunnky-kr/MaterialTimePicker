@@ -58,48 +58,40 @@ struct DemoScreen {
 
 @Component
 struct TimePickerButton {
-  @State hour: string= new Date().getHours() + ""
-  @State minute: string= new Date().getMinutes() + ""
   @State time: string= ""
   width: Length= '100vp'
   controller: CustomDialogController= new CustomDialogController({
     builder: MaterialTimePicker({
                       options: {
-//                        timeFormat: TimeFormat.CLOCK_24H,
-//                        hour:10,
-//                        minute:30,
+                        timeFormat: TimeFormat.CLOCK_12H,
+                        hour:new Date().getHours(),
+                        minute:new Date().getMinutes(),
                         cancel: [this.cancel],
-                        onPositiveButtonClick: [(time: string) => this.submit2(time)],
+                        onPositiveButtonClick: [(time:string)=>this.submit(time)],
                         onNegativeButtonClick:[this.cancel],
                         dismiss:[this.cancel],
-//                        keyboardSymbol: $r("app.media.keyboard"),
-//                        clockSymbol:$r("app.media.clock"),
-//                        clockFaceBackgroundColor:Color.Pink,
-//                        clockHandColor:Color.Green,
-//                        inputMethod:InputMethod.TextInputMethod,
-//                        clockNumberTextColor:Color.Red,
-//                        textInputTitle:"SELECT YOUR TIME",
-//                        clockInputTitle:"Enter your Time",
-//                        titleBackgroundColor:Color.Yellow,
-//                        titleFontColor:Color.White,
-//                        labelColor=Color.Red,
-//                        materialCircleRadius=200,
-//                        selectorSize=60
+                        keyboardSymbol: $r("app.media.keyboard"),
+                        clockSymbol:$r("app.media.clock"),
+                        clockFaceBackgroundColor:"#e4e4e4",
+                        clockHandColor:"#5e00ff",
+                        inputMethod:InputMethod.ClockInputMethod,
+                        clockNumberTextColor: Color.Black,
+                        textInputTitle:"Enter Time",
+                        clockInputTitle:"Select Time",
+                        titleBackgroundColor:"#5e00ff",
+                        titleFontColor:Color.White,
+                        labelColor:"#717171",
+                        materialCircleRadius:100,
+                        selectorSize:50
                       }
     })
   })
 
-  submit(hour: string, minute: string) {
-    this.hour = hour
-    this.minute = minute
-  }
-
-  submit2(time: string) {
+  submit(time: string) {
     this.time = time
   }
 
   cancel() {
-    console.log("cancelled")
   }
 
   build() {

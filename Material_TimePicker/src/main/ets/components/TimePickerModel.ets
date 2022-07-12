@@ -105,7 +105,7 @@ export class TimePickerModel {
 
   }
   onPositiveButtonClick(time:string) {
-    this.onPositiveButtonClickListeners.forEach(element=>element(time))
+    this.onPositiveButtonClickListeners.forEach(element=>{element(time)})
   }
   onNegativeButtonClick() {
     this.onNegativeButtonClickListeners.forEach(element=>element())
@@ -117,19 +117,19 @@ export class TimePickerModel {
     this.onDismissListeners.forEach(element=>element())
   }
   addOnPositiveButtonClickListener(listener:((string)=>void)[]) {
-    listener.forEach(element=>this.onPositiveButtonClickListeners.concat(element))
+    listener.forEach(element=>this.onPositiveButtonClickListeners=this.onPositiveButtonClickListeners.concat(element))
   }
 
   addOnNegativeButtonClickListener(listener:(()=>void)[]) {
-    listener.forEach(element=>this.onNegativeButtonClickListeners.concat(element))
+    listener.forEach(element=>this.onNegativeButtonClickListeners=this.onNegativeButtonClickListeners.concat(element))
   }
 
   addOnCancelListener(listener:(()=>void)[]) {
-    listener.forEach(element=>this.onCancelListeners.concat(element))
+    listener.forEach(element=>this.onCancelListeners=this.onCancelListeners.concat(element))
   }
 
   addOnDismissListener(listener:(()=>void)[]) {
-    listener.forEach(element=>this.onDismissListeners.concat(element))
+    listener.forEach(element=>this.onDismissListeners=this.onDismissListeners.concat(element))
   }
 
   setKeyboardSymbol(keyBoardSymbol: Resource) {

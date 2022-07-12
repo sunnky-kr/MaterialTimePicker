@@ -54,9 +54,9 @@ MaterialTimePicker({
                     clockInputTitle:"Enter your Time",
                     titleBackgroundColor:Color.Yellow,
                     titleFontColor:Color.White,
-                    labelColor=Color.Red,
-                    materialCircleRadius=200,
-                    selectorSize=60
+                    labelColor:Color.Red,
+                    materialCircleRadius:200,
+                    selectorSize:60
                   }
     })
 ```
