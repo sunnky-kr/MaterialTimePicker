@@ -64,23 +64,28 @@ struct TimePickerButton {
   width: Length= '100vp'
   controller: CustomDialogController= new CustomDialogController({
     builder: MaterialTimePicker({
-      options: {
-        //                timeFormat: TimeFormat.CLOCK_24H,
-        //                hour:10,
-        //                minute:30,
-        cancel: this.cancel,
-        confirm: (time: string) => this.submit2(time),
-        //                keyboardSymbol: $r("app.media.keyboard"),
-        //                clockSymbol:$r("app.media.clock"),
-        //                clockFaceBackgroundColor:Color.Pink,
-        //                clockHandColor:Color.Green,
-        //                inputMethod:InputMethod.TextInputMethod,
-        //                clockNumberTextColor:Color.Red,
-        //                textInputTitle:"SELECT YOUR TIME",
-        //                clockInputTitle:"Enter your Time",
-        //                titleBackgroundColor:Color.Yellow,
-        //                titleFontColor:Color.White
-      }
+                      options: {
+//                        timeFormat: TimeFormat.CLOCK_24H,
+//                        hour:10,
+//                        minute:30,
+                        cancel: [this.cancel],
+                        onPositiveButtonClick: [(time: string) => this.submit2(time)],
+                        onNegativeButtonClick:[this.cancel],
+                        dismiss:[this.cancel],
+//                        keyboardSymbol: $r("app.media.keyboard"),
+//                        clockSymbol:$r("app.media.clock"),
+//                        clockFaceBackgroundColor:Color.Pink,
+//                        clockHandColor:Color.Green,
+//                        inputMethod:InputMethod.TextInputMethod,
+//                        clockNumberTextColor:Color.Red,
+//                        textInputTitle:"SELECT YOUR TIME",
+//                        clockInputTitle:"Enter your Time",
+//                        titleBackgroundColor:Color.Yellow,
+//                        titleFontColor:Color.White,
+//                        labelColor=Color.Red,
+//                        materialCircleRadius=200,
+//                        selectorSize=60
+                      }
     })
   })
 
@@ -94,6 +99,7 @@ struct TimePickerButton {
   }
 
   cancel() {
+    console.log("cancelled")
   }
 
   build() {

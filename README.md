@@ -36,23 +36,28 @@ To pickup from the Time Picker
 ```
 
 MaterialTimePicker({
-              options: {
-                timeFormat: TimeFormat.CLOCK_24H,
-                hour:10,
-                minute:30,
-                cancel: this.cancel,
-                confirm: (time: string) => this.submit2(time),
-                keyboardSymbol: $r("app.media.keyboard"),
-                clockSymbol:$r("app.media.clock"),
-                clockFaceBackgroundColor:Color.Pink,
-                clockHandColor:Color.Green,
-                inputMethod:InputMethod.TextInputMethod,
-                clockNumberTextColor:Color.Red,
-                textInputTitle:"SELECT YOUR TIME",
-                clockInputTitle:"Enter your Time",
-                titleBackgroundColor:Color.Yellow,
-                titleFontColor:Color.White
-              }
+                  options: {
+                    timeFormat: TimeFormat.CLOCK_24H,
+                    hour:10,
+                    minute:30,
+                    cancel: [this.cancel],
+                    onPositiveButtonClick: [(time: string) => this.submit2(time)],
+                    onNegativeButtonClick:[this.cancel],
+                    dismiss:[this.cancel],
+                    keyboardSymbol: $r("app.media.keyboard"),
+                    clockSymbol:$r("app.media.clock"),
+                    clockFaceBackgroundColor:Color.Pink,
+                    clockHandColor:Color.Green,
+                    inputMethod:InputMethod.TextInputMethod,
+                    clockNumberTextColor:Color.Red,
+                    textInputTitle:"SELECT YOUR TIME",
+                    clockInputTitle:"Enter your Time",
+                    titleBackgroundColor:Color.Yellow,
+                    titleFontColor:Color.White,
+                    labelColor=Color.Red,
+                    materialCircleRadius=200,
+                    selectorSize=60
+                  }
     })
 ```
 
@@ -65,8 +70,10 @@ You can style the viewer using these attributes :
 | timeFormat | sets the 12H or 24H format   |
 | hour | sets the initial value of hour   |
 | minute | sets the initial value of minute   |
-| cancel | function to call on clicking cancel button   |
-| confirm | function to call on clicking OK button   |
+| cancel | list of callback functions to call on cancelling the time picker   |
+| onPositiveButtonClick | list of callback functions to call on clicking OK button   |
+| onNegativeButtonClick | list of callback functions to call on clicking cancel button   |
+| dismiss | list of callback functions to call on dismissing the timepicker   |
 | keyboardSymbol  | Symbol for the keyboard icon |
 | clockSymbol  | symbol for the clock icon  |
 | clockFaceBackgroundColor  | sets the color of the background of clock's face  |
@@ -77,6 +84,9 @@ You can style the viewer using these attributes :
 | clockInputTitle | sets the title of the Time Picker screen in Clock Input Mode   |
 | titleBackgroundColor | sets the background color of the title  |
 | titleFontColor | sets the font color of the title  |
+| labelColor | sets the font color of the label in text input mode  |
+| materialCircleRadius | sets the radius indicating how far away from the center of the group the elements are positioned  |
+| selectorSize | sets the diameter of the pointer of the clock hand |
 
 ## Compatibility
 ****

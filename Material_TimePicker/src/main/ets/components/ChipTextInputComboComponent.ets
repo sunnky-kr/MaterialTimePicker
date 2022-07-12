@@ -74,7 +74,7 @@ export struct ChipTextInputComboComponent {
 
         Text("Hour")
           .fontSize('12fp')
-          .fontColor("#717171")
+          .fontColor(this.timePickerModel.labelColor)
           .padding({ top: '8vp' })
           .visibility(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? Visibility.Visible : Visibility.None)
       }
@@ -131,7 +131,7 @@ export struct ChipTextInputComboComponent {
 
         Text("Minute")
           .fontSize('12fp')
-          .fontColor("#717171")
+          .fontColor(this.timePickerModel.labelColor)
           .padding({ top: '8vp' })
           .visibility(this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? Visibility.Visible : Visibility.None)
 

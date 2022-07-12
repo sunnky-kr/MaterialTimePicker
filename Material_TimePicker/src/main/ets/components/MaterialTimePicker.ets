@@ -30,7 +30,9 @@ export struct MaterialTimePicker {
       this.parentModel = new TimePickerModel(this.options)
     }
   }
-
+  onBackPress(){
+    this.parentModel.onCancel()
+  }
   build() {
     Column({ space: '0vp' }) {
       Row() {
@@ -38,7 +40,7 @@ export struct MaterialTimePicker {
           Text(this.parentModel.inputMethod == InputMethod.TextInputMethod ? this.parentModel.textInputTitle : this.parentModel.clockInputTitle)
             .fontColor(this.parentModel.titleFontColor)
             .fontWeight(FontWeight.Bolder)
-            .fontSize('12fp')
+            .fontSize('20fp')
         }
         .width('95%')
         .height('100%')
@@ -46,9 +48,9 @@ export struct MaterialTimePicker {
         Row() {
           Text("x")
             .fontColor(this.parentModel.titleFontColor)
-            .fontSize('25fp')
+            .fontSize('30fp')
             .onClick(() => {
-              this.parentModel.cancel()
+              this.parentModel.onDismiss()
               this.controller.close()
             })
         }
@@ -57,7 +59,7 @@ export struct MaterialTimePicker {
       }
       .alignItems(VerticalAlign.Bottom)
       .backgroundColor(this.parentModel.titleBackgroundColor)
-      .height('28vp')
+      .height('50vp')
       .width('280vp')
 
       Column({ space: '24vp' }) {
@@ -90,7 +92,8 @@ export struct MaterialTimePicker {
               .backgroundColor(Color.White)
               .fontColor("#9d9d9d")
               .onClick(() => {
-                this.parentModel.cancel()
+                this.parentModel.onNegativeButtonClick()
+                this.parentModel.onDismiss()
                 this.controller.close()
               })
             Button("OK")
@@ -101,6 +104,7 @@ export struct MaterialTimePicker {
               .borderRadius('2vp')
               .onClick(() => {
                 this.parentModel.confirm(this.parentModel.model.getTimeForDisplay())
+                this.parentModel.onDismiss()
                 this.controller.close()
               })
           }
@@ -120,7 +124,7 @@ export struct MaterialTimePicker {
     .clip(true)
     .borderRadius('24vp')
     .width('100%')
-    .height(this.parentModel.totalHeight + "vp")
+    .height(this.parentModel.totalHeight)
     .alignItems(HorizontalAlign.Center)
     .backgroundColor(this.parentModel.titleBackgroundColor)
   }

@@ -48,20 +48,22 @@ export class TimePickerModel {
   clockFaceDiameter: string | number= '256vp'
   clockFaceBackgroundColor: ResourceColor= "#e4e4e4"
   clockNumberTextColor: ResourceColor= Color.Black
-  elementPositionRadius: number= 100
+  materialCircleRadius: number= 100
   elementSize: number= 25
   numberOfElements: number= 12
   elements: (number | string)[]= []
   elementPositions: ElementPosition[]= []
   inputMethod: InputMethod= InputMethod.ClockInputMethod
+  labelColor: ResourceColor="#717171"
   chipHeight: Length
-  totalHeight: number
+  totalHeight: Length
   bodyHeight: Length
   model: TimeModel
   //MaterialTimePickerParameters
-  cancel: () => void= () => {
-  }
-  confirm: (string) => void= (time: string) => time
+  onCancelListeners: (() => void)[]= []
+  onPositiveButtonClickListeners: ((string) => void)[]= []
+  onNegativeButtonClickListeners: (() => void)[]= []
+  onDismissListeners: (() => void)[]= []
   clockInputTitle?: string= "Select Time"
   textInputTitle?: string= "Enter Time"
   titleBackgroundColor?: ResourceColor= "#5e00ff"
@@ -83,8 +85,10 @@ export class TimePickerModel {
     if (options.timeFormat != undefined) this.setClockFormat(options.timeFormat)
     if (options.hour != undefined) this.model.setHour(options.hour)
     if (options.minute != undefined) this.model.setMinute(options.minute)
-    if (options.cancel != undefined) this.cancel = options.cancel
-    if (options.confirm != undefined) this.confirm = options.confirm
+    if (options.cancel != undefined) this.addOnCancelListener(options.cancel)
+    if (options.onPositiveButtonClick != undefined) this.addOnPositiveButtonClickListener(options.onPositiveButtonClick)
+    if (options.onNegativeButtonClick != undefined) this.addOnNegativeButtonClickListener(options.onNegativeButtonClick)
+    if (options.dismiss != undefined) this.addOnDismissListener(options.dismiss)
     if (options.keyboardSymbol != undefined) this.setKeyboardSymbol(options.keyboardSymbol)
     if (options.clockSymbol != undefined) this.setClockSymbol(options.clockSymbol)
     if (options.clockFaceBackgroundColor != undefined) this.setClockFaceBackgroundColor(options.clockFaceBackgroundColor)
@@ -95,7 +99,37 @@ export class TimePickerModel {
     if (options.inputMethod != undefined) this.setInputMethod(options.inputMethod)
     if (options.titleBackgroundColor != undefined) this.titleBackgroundColor = options.titleBackgroundColor
     if (options.titleFontColor != undefined) this.titleFontColor = options.titleFontColor
+    if (options.labelColor != undefined) this.labelColor = options.labelColor
+    if (options.materialCircleRadius != undefined) this.materialCircleRadius = options.materialCircleRadius
+    if (options.selectorSize != undefined) this.pointerDiameter = options.selectorSize
 
+  }
+  onPositiveButtonClick(time:string) {
+    this.onPositiveButtonClickListeners.forEach(element=>element(time))
+  }
+  onNegativeButtonClick() {
+    this.onNegativeButtonClickListeners.forEach(element=>element())
+  }
+  onCancel() {
+    this.onCancelListeners.forEach(element=>element())
+  }
+  onDismiss() {
+    this.onDismissListeners.forEach(element=>element())
+  }
+  addOnPositiveButtonClickListener(listener:((string)=>void)[]) {
+    listener.forEach(element=>this.onPositiveButtonClickListeners.concat(element))
+  }
+
+  addOnNegativeButtonClickListener(listener:(()=>void)[]) {
+    listener.forEach(element=>this.onNegativeButtonClickListeners.concat(element))
+  }
+
+  addOnCancelListener(listener:(()=>void)[]) {
+    listener.forEach(element=>this.onCancelListeners.concat(element))
+  }
+
+  addOnDismissListener(listener:(()=>void)[]) {
+    listener.forEach(element=>this.onDismissListeners.concat(element))
   }
 
   setKeyboardSymbol(keyBoardSymbol: Resource) {
@@ -151,8 +185,8 @@ export class TimePickerModel {
 
   updateHeight() {
     this.chipHeight = this.inputMethod == InputMethod.TextInputMethod ? '100vp' : '372vp'
-    this.totalHeight = this.inputMethod == InputMethod.TextInputMethod ? 228 : 500
-    this.bodyHeight = this.totalHeight - 28 + "vp"
+    this.totalHeight = this.inputMethod == InputMethod.TextInputMethod ? '250vp' : '522vp'
+    this.bodyHeight = this.inputMethod == InputMethod.TextInputMethod ? '200vp' : '472vp'
   }
 
   update() {
@@ -226,7 +260,7 @@ export class TimePickerModel {
   updateElementPositions() {
     this.elementPositions = Array(this.numberOfElements).fill(1).map((_, idx) => {
       var angle: number = (idx * 360 * Math.PI) / (180 * this.numberOfElements);
-      var pos: ElementPosition = new ElementPosition(this.clockWidth / 2 + this.elementPositionRadius * Math.sin(angle) - this.elementSize / 2, this.clockHeight / 2 - this.elementPositionRadius * Math.cos(angle) - this.elementSize / 2);
+      var pos: ElementPosition = new ElementPosition(this.clockWidth / 2 + this.materialCircleRadius * Math.sin(angle) - this.elementSize / 2, this.clockHeight / 2 - this.materialCircleRadius * Math.cos(angle) - this.elementSize / 2);
       return pos
     })
   }

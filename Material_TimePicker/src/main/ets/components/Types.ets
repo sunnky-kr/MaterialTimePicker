@@ -34,8 +34,10 @@ export interface TimePickerOptions {
   timeFormat?: TimeFormat
   hour?: number
   minute?: number
-  cancel?: () => void
-  confirm?: (string) => void
+  cancel?: (() => void)[]
+  onPositiveButtonClick?: ((string) => void)[]
+  onNegativeButtonClick?: (() => void)[]
+  dismiss?: (() => void)[]
   keyboardSymbol?: Resource
   clockSymbol?: Resource
   clockFaceBackgroundColor?: ResourceColor
@@ -46,4 +48,7 @@ export interface TimePickerOptions {
   inputMethod?: InputMethod
   titleBackgroundColor?: ResourceColor
   titleFontColor?: ResourceColor
+  labelColor?: ResourceColor
+  materialCircleRadius?: number
+  selectorSize?: number
 }

@@ -43,29 +43,28 @@ export struct ClockHandComponent {
             Column() {
               Text(element + "").fontSize('20fp').alignSelf(ItemAlign.Center).fontColor(Color.White)
             }
-            .height(this.timePickerModel.elementSize + 'vp')
-            .width(this.timePickerModel.elementSize + 'vp')
+            .height(this.timePickerModel.elementSize)
+            .width(this.timePickerModel.elementSize)
             .position(this.timePickerModel.elementPositions[idx])
             .alignItems(HorizontalAlign.Center)
           })
         }
-        .height('100%')
-        .width('100%')
+        .height(this.timePickerModel.clockHeight)
+        .width(this.timePickerModel.clockWidth)
         .position(this.timePickerModel.elementCoverPosition)
 
       }
       .backgroundColor(this.timePickerModel.handColor)
       .clip(true)
       .position(this.timePickerModel.pointerPosition)
-      .height(this.timePickerModel.pointerDiameter + 'vp')
-      .width(this.timePickerModel.pointerDiameter + 'vp')
-      .borderRadius((this.timePickerModel.pointerDiameter / 2) + 'vp')
+      .height(this.timePickerModel.pointerDiameter)
+      .width(this.timePickerModel.pointerDiameter)
+      .borderRadius(this.timePickerModel.pointerDiameter / 2)
     }
     .height('100%')
     .width('100%')
     .onTouch((event) => {
       if (event.type == TouchType.Up) {
-        console.log(event.touches[0].x + "   " + event.touches[0].y)
         var target: number = (180 * Math.atan2(event.touches[0].x - this.timePickerModel.clockWidth / 2, -event.touches[0].y + this.timePickerModel.clockHeight / 2)) / Math.PI
         this.timePickerModel.setRotation(target, true)
         this.timePickerModel.update()

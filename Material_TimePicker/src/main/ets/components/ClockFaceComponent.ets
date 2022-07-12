@@ -30,7 +30,7 @@ export struct ClockFaceComponent {
       ClockHandComponent({ timePickerModel: $timePickerModel })
     }
     .width(this.timePickerModel.clockWidth)
-    .height(this.timePickerModel.clockHeight + "vp")
+    .height(this.timePickerModel.clockHeight)
     .visibility(this.timePickerModel.inputMethod == InputMethod.ClockInputMethod ? Visibility.Visible : Visibility.None)
   }
 }
@@ -52,8 +52,8 @@ export struct RadialContainer {
             .alignSelf(ItemAlign.Center)
             .fontColor(this.timePickerModel.clockNumberTextColor)
         }
-        .height(this.timePickerModel.elementSize + 'vp')
-        .width(this.timePickerModel.elementSize + 'vp')
+        .height(this.timePickerModel.elementSize)
+        .width(this.timePickerModel.elementSize)
         .position(this.timePickerModel.elementPositions[idx])
         .alignItems(HorizontalAlign.Center)
       })
