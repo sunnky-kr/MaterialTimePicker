@@ -62,28 +62,28 @@ struct TimePickerButton {
   width: Length= '100vp'
   controller: CustomDialogController= new CustomDialogController({
     builder: MaterialTimePicker({
-                      options: {
-                        timeFormat: TimeFormat.CLOCK_12H,
-                        hour:new Date().getHours(),
-                        minute:new Date().getMinutes(),
-                        cancel: [()=>this.cancel()],
-                        onPositiveButtonClick: [(time:string)=>this.submit(time)],
-                        onNegativeButtonClick:[()=>this.cancel()],
-                        dismiss:[()=>this.cancel()],
-                        keyboardSymbol: $r("app.media.keyboard"),
-                        clockSymbol:$r("app.media.clock"),
-                        clockFaceBackgroundColor:"#e4e4e4",
-                        clockHandColor:"#5e00ff",
-                        inputMethod:InputMethod.ClockInputMethod,
-                        clockNumberTextColor: Color.Black,
-                        textInputTitle:"Enter Time",
-                        clockInputTitle:"Select Time",
-                        titleBackgroundColor:"#5e00ff",
-                        titleFontColor:Color.White,
-                        labelColor:"#717171",
-                        materialCircleRadius:100,
-                        selectorSize:50
-                      }
+      options: {
+        timeFormat: TimeFormat.CLOCK_12H,
+        hour: new Date().getHours(),
+        minute: new Date().getMinutes(),
+        cancel: [() => this.cancel()],
+        onPositiveButtonClick: [(time: string) => this.submit(time)],
+        onNegativeButtonClick: [() => this.cancel()],
+        dismiss: [() => this.cancel()],
+        keyboardSymbol: $r("app.media.keyboard"),
+        clockSymbol: $r("app.media.clock"),
+        clockFaceBackgroundColor: "#e4e4e4",
+        clockHandColor: "#5e00ff",
+        inputMethod: InputMethod.ClockInputMethod,
+        clockNumberTextColor: Color.Black,
+        textInputTitle: "Enter Time",
+        clockInputTitle: "Select Time",
+        titleBackgroundColor: "#5e00ff",
+        titleFontColor: Color.White,
+        labelColor: "#717171",
+        materialCircleRadius: 100,
+        selectorSize: 50
+      }
     })
   })
 
