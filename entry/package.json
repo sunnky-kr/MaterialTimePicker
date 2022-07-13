@@ -10,6 +10,6 @@
   "repository": {},
   "license": "ISC",
   "dependencies": {
-    "@ohos/material_timepicker": "file:../Material_TimePicker"
+    "@ohos/materialtimepicker": "file:../MaterialTimePicker"
   }
 }

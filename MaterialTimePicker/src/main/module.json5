@@ -1,6 +1,6 @@
 {
   "module": {
-    "name": "Material_TimePicker",
+    "name": "MaterialTimePicker",
     "type": "har",
     "deviceTypes": [
       "phone",
