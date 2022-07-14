@@ -26,13 +26,16 @@ export struct MaterialTimePicker {
   private controller: CustomDialogController
 
   aboutToAppear() {
-    if (this.parentModel == undefined) {
+    if (this.parentModel == undefined || this.parentModel == null) {
       this.parentModel = new TimePickerModel(this.options)
     }
   }
-  onBackPress(){
+
+  onBackPress() {
     this.parentModel.onCancel()
+    this.controller.close()
   }
+
   build() {
     Column({ space: '0vp' }) {
       Row() {
@@ -70,50 +73,58 @@ export struct MaterialTimePicker {
         .height(this.parentModel.chipHeight)
         .width('280vp')
 
-        Row({ space: '118vp' }) {
-          Button({ type: ButtonType.Normal }) {
-            Image(this.parentModel.inputMethod == InputMethod.ClockInputMethod ? this.parentModel.inputSymbol[0] : this.parentModel.inputSymbol[1])
-              .width('24vp')
-              .height('24vp')
+        Row() {
+          Column() {
+            Button({ type: ButtonType.Normal }) {
+              Image(this.parentModel.inputMethod == InputMethod.ClockInputMethod ? this.parentModel.inputSymbol[0] : this.parentModel.inputSymbol[1])
+                .width('24vp')
+                .height('24vp')
+            }
+            .height('44vp')
+            .width('44vp')
+            .backgroundColor(Color.White)
+            .onClick(() => {
+              this.parentModel.setInputMethod(1 - this.parentModel.inputMethod)
+            })
           }
-          .height('44vp')
-          .width('44vp')
-          .backgroundColor(Color.White)
-          .onClick(() => {
-            this.parentModel.setInputMethod(1 - this.parentModel.inputMethod)
-          })
-
-          Row({ space: '8vp' }) {
-            Button("CANCEL")
-              .fontSize('16fp')
-              .type(ButtonType.Normal)
-              .height('36vp')
-              .padding({ left: '2vp', right: '2vp', top: '10vp', bottom: '10vp' })
-              .backgroundColor(Color.White)
-              .fontColor("#9d9d9d")
-              .onClick(() => {
-                this.parentModel.onNegativeButtonClick()
-                this.parentModel.onDismiss()
-                this.controller.close()
-              })
-            Button("OK")
-              .type(ButtonType.Normal)
-              .height('36vp')
-              .backgroundColor("#5e00ff")
-              .fontColor(Color.White)
-              .borderRadius('2vp')
-              .onClick(() => {
-                this.parentModel.onPositiveButtonClick(this.parentModel.model.getTimeForDisplay())
-                this.parentModel.onDismiss()
-                this.controller.close()
-              })
+          .height('100%')
+          .width('50%')
+          .alignItems(HorizontalAlign.Start)
+          Column() {
+            Row({ space: '8vp' }) {
+              Button("CANCEL")
+                .fontSize('16fp')
+                .type(ButtonType.Normal)
+                .height('36vp')
+                .padding({ left: '2vp', right: '2vp', top: '10vp', bottom: '10vp' })
+                .backgroundColor(Color.White)
+                .fontColor("#9d9d9d")
+                .onClick(() => {
+                  this.parentModel.onNegativeButtonClick()
+                  this.parentModel.onDismiss()
+                  this.controller.close()
+                })
+              Button("OK")
+                .type(ButtonType.Normal)
+                .height('36vp')
+                .backgroundColor("#5e00ff")
+                .fontColor(Color.White)
+                .borderRadius('2vp')
+                .onClick(() => {
+                  this.parentModel.onPositiveButtonClick(this.parentModel.model.getTimeForDisplay())
+                  this.parentModel.onDismiss()
+                  this.controller.close()
+                })
+            }
+            .width('144vp')
+            .height('36vp')
           }
-          .width('144vp')
-          .height('36vp')
+          .height('100%')
+          .width('50%')
+          .alignItems(HorizontalAlign.End)
         }
         .height('52vp')
-        .width("100%")
-        .padding({ left: '12vp', right: '8vp' })
+        .margin({ left: '12vp', right: '8vp' })
       }
       .width('100%')
       .backgroundColor(Color.White)
@@ -122,7 +133,7 @@ export struct MaterialTimePicker {
       .alignItems(HorizontalAlign.Center)
     }
     .clip(true)
-    .borderRadius('24vp')
+    .borderRadius('22vp')
     .width('100%')
     .height(this.parentModel.totalHeight)
     .alignItems(HorizontalAlign.Center)

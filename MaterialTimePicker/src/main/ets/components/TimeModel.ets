@@ -19,6 +19,8 @@ import { ClockPeriod, TimeFormat } from "./Types"
 export class TimeModel {
   hour: number
   minute: number
+  hourForDisplay: string
+  minuteForDisplay: string
   period: ClockPeriod
   format: TimeFormat
   constructor(hour: number, minute: number, format: TimeFormat) {
@@ -29,20 +31,32 @@ export class TimeModel {
   }
 
   public setHour(hour: number) {
-    if (hour < 0 || hour > 24)  return
+    if (hour == null || hour == undefined) {
+      return
+    }
+    if (hour < 0 || hour > 24) {
+      return
+    }
     if (this.format == TimeFormat.CLOCK_24H) {
       this.hour = hour % 24
     }
     else {
       this.hour = hour % 12 + (this.period == ClockPeriod.PM ? 12 : 0)
     }
+    this.hourForDisplay=this.formattedHour()
   }
 
   public setHourOfDay(hour: number) {
-    if (hour < 0 || hour > 24)  return
+    if (hour == null || hour == undefined) {
+      return
+    }
+    if (hour < 0 || hour > 24) {
+      return
+    }
     hour %= 24
     this.period = hour >= 12 ? ClockPeriod.PM : ClockPeriod.AM
     this.hour = hour
+    this.hourForDisplay=this.formattedHour()
   }
 
   public getHourForDisplay() {
@@ -71,8 +85,13 @@ export class TimeModel {
   }
 
   public setMinute(minute: number) {
-    if (minute >= 0 && minute <= 60)
-    this.minute = minute % 60
+    if (minute == null || minute == undefined) {
+      return
+    }
+    if (minute >= 0 && minute <= 60) {
+      this.minute = minute % 60
+    }
+    this.minuteForDisplay=this.formattedMinute()
   }
 
   public getTimeForDisplay() {
@@ -85,10 +104,14 @@ export class TimeModel {
   }
 
   public setPeriod(period: ClockPeriod) {
+    if (period == null || period == undefined) {
+      return
+    }
     if (this.format == TimeFormat.CLOCK_12H && this.period != period) {
       this.period = period
-      if (this.hour < 12 && period == ClockPeriod.PM)
-      this.hour += 12
+      if (this.hour < 12 && period == ClockPeriod.PM) {
+        this.hour += 12
+      }
       else if (this.hour >= 12 && period == ClockPeriod.AM) {
         this.hour -= 12
       }

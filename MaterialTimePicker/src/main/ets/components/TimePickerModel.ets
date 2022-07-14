@@ -21,8 +21,8 @@ export class ElementPosition implements Position {
   x: number;
   y: number;
   constructor(x?: number, y?: number) {
-    this.x = x != undefined ? x : 0;
-    this.y = y != undefined ? y : 0;
+    this.x = x != undefined || x != null ? x : 0;
+    this.y = y != undefined || y != null ? y : 0;
   }
 }
 
@@ -54,7 +54,7 @@ export class TimePickerModel {
   elements: (number | string)[]= []
   elementPositions: ElementPosition[]= []
   inputMethod: InputMethod= InputMethod.ClockInputMethod
-  labelColor: ResourceColor="#717171"
+  labelColor: ResourceColor= "#717171"
   chipHeight: Length
   totalHeight: Length
   bodyHeight: Length
@@ -72,7 +72,9 @@ export class TimePickerModel {
 
   constructor(options: TimePickerOptions) {
     this.setDefault()
-    if (options != undefined) this.updateParams(options)
+    if (options != undefined || options != null) {
+      this.updateParams(options)
+    }
     this.setRotation(this.getRotation())
     this.update()
   }
@@ -82,54 +84,101 @@ export class TimePickerModel {
   }
 
   updateParams(options: TimePickerOptions) {
-    if (options.timeFormat != undefined) this.setClockFormat(options.timeFormat)
-    if (options.hour != undefined) this.model.setHour(options.hour)
-    if (options.minute != undefined) this.model.setMinute(options.minute)
-    if (options.cancel != undefined) this.addOnCancelListener(options.cancel)
-    if (options.onPositiveButtonClick != undefined) this.addOnPositiveButtonClickListener(options.onPositiveButtonClick)
-    if (options.onNegativeButtonClick != undefined) this.addOnNegativeButtonClickListener(options.onNegativeButtonClick)
-    if (options.dismiss != undefined) this.addOnDismissListener(options.dismiss)
-    if (options.keyboardSymbol != undefined) this.setKeyboardSymbol(options.keyboardSymbol)
-    if (options.clockSymbol != undefined) this.setClockSymbol(options.clockSymbol)
-    if (options.clockFaceBackgroundColor != undefined) this.setClockFaceBackgroundColor(options.clockFaceBackgroundColor)
-    if (options.clockHandColor != undefined) this.setClockHandColor(options.clockHandColor)
-    if (options.clockNumberTextColor != undefined) this.setClockNumberTextColor(options.clockNumberTextColor)
-    if (options.clockInputTitle != undefined) this.clockInputTitle = options.clockInputTitle
-    if (options.textInputTitle != undefined) this.textInputTitle = options.textInputTitle
-    if (options.inputMethod != undefined) this.setInputMethod(options.inputMethod)
-    if (options.titleBackgroundColor != undefined) this.titleBackgroundColor = options.titleBackgroundColor
-    if (options.titleFontColor != undefined) this.titleFontColor = options.titleFontColor
-    if (options.labelColor != undefined) this.labelColor = options.labelColor
-    if (options.materialCircleRadius != undefined) this.materialCircleRadius = options.materialCircleRadius
-    if (options.selectorSize != undefined) this.pointerDiameter = options.selectorSize
+    if (options.timeFormat != undefined || options.timeFormat != null) {
+      this.setClockFormat(options.timeFormat)
+    }
+    if (options.hour != undefined || options.hour != null) {
+      this.model.setHour(options.hour)
+    }
+    if (options.minute != undefined || options.minute != null) {
+      this.model.setMinute(options.minute)
+    }
+    if (options.cancel != undefined || options.cancel != null) {
+      this.addOnCancelListener(options.cancel)
+    }
+    if (options.onPositiveButtonClick != undefined || options.onPositiveButtonClick != null) {
+      this.addOnPositiveButtonClickListener(options.onPositiveButtonClick)
+    }
+    if (options.onNegativeButtonClick != undefined || options.onNegativeButtonClick != null) {
+      this.addOnNegativeButtonClickListener(options.onNegativeButtonClick)
+    }
+    if (options.dismiss != undefined || options.dismiss != null) {
+      this.addOnDismissListener(options.dismiss)
+    }
+    if (options.keyboardSymbol != undefined || options.keyboardSymbol != null) {
+      this.setKeyboardSymbol(options.keyboardSymbol)
+    }
+    if (options.clockSymbol != undefined || options.clockSymbol != null) {
+      this.setClockSymbol(options.clockSymbol)
+    }
+    if (options.clockFaceBackgroundColor != undefined || options.clockFaceBackgroundColor != null) {
+      this.setClockFaceBackgroundColor(options.clockFaceBackgroundColor)
+    }
+    if (options.clockHandColor != undefined || options.clockHandColor != null) {
+      this.setClockHandColor(options.clockHandColor)
+    }
+    if (options.clockNumberTextColor != undefined || options.clockNumberTextColor != null) {
+      this.setClockNumberTextColor(options.clockNumberTextColor)
+    }
+    if (options.clockInputTitle != undefined || options.clockInputTitle != null) {
+      this.clockInputTitle = options.clockInputTitle
+    }
+    if (options.textInputTitle != undefined || options.textInputTitle != null) {
+      this.textInputTitle = options.textInputTitle
+    }
+    if (options.inputMethod != undefined || options.inputMethod != null) {
+      this.setInputMethod(options.inputMethod)
+    }
+    if (options.titleBackgroundColor != undefined || options.titleBackgroundColor != null) {
+      this.titleBackgroundColor = options.titleBackgroundColor
+    }
+    if (options.titleFontColor != undefined || options.titleFontColor != null) {
+      this.titleFontColor = options.titleFontColor
+    }
+    if (options.labelColor != undefined || options.labelColor != null) {
+      this.labelColor = options.labelColor
+    }
+    if (options.materialCircleRadius != undefined || options.materialCircleRadius != null) {
+      this.materialCircleRadius = options.materialCircleRadius
+    }
+    if (options.selectorSize != undefined || options.selectorSize != null) {
+      this.pointerDiameter = options.selectorSize
+    }
 
   }
-  onPositiveButtonClick(time:string) {
-    this.onPositiveButtonClickListeners.forEach(element=>{element(time)})
+
+  onPositiveButtonClick(time: string) {
+    this.onPositiveButtonClickListeners.forEach(element => {
+      element(time)
+    })
   }
+
   onNegativeButtonClick() {
-    this.onNegativeButtonClickListeners.forEach(element=>element())
+    this.onNegativeButtonClickListeners.forEach(element => element())
   }
+
   onCancel() {
-    this.onCancelListeners.forEach(element=>element())
+    this.onCancelListeners.forEach(element => element())
   }
+
   onDismiss() {
-    this.onDismissListeners.forEach(element=>element())
-  }
-  addOnPositiveButtonClickListener(listener:((string)=>void)[]) {
-    listener.forEach(element=>this.onPositiveButtonClickListeners=this.onPositiveButtonClickListeners.concat(element))
+    this.onDismissListeners.forEach(element => element())
   }
 
-  addOnNegativeButtonClickListener(listener:(()=>void)[]) {
-    listener.forEach(element=>this.onNegativeButtonClickListeners=this.onNegativeButtonClickListeners.concat(element))
+  addOnPositiveButtonClickListener(listener: ((string) => void)[]) {
+    listener.forEach(element => this.onPositiveButtonClickListeners = this.onPositiveButtonClickListeners.concat(element))
   }
 
-  addOnCancelListener(listener:(()=>void)[]) {
-    listener.forEach(element=>this.onCancelListeners=this.onCancelListeners.concat(element))
+  addOnNegativeButtonClickListener(listener: (() => void)[]) {
+    listener.forEach(element => this.onNegativeButtonClickListeners = this.onNegativeButtonClickListeners.concat(element))
   }
 
-  addOnDismissListener(listener:(()=>void)[]) {
-    listener.forEach(element=>this.onDismissListeners=this.onDismissListeners.concat(element))
+  addOnCancelListener(listener: (() => void)[]) {
+    listener.forEach(element => this.onCancelListeners = this.onCancelListeners.concat(element))
+  }
+
+  addOnDismissListener(listener: (() => void)[]) {
+    listener.forEach(element => this.onDismissListeners = this.onDismissListeners.concat(element))
   }
 
   setKeyboardSymbol(keyBoardSymbol: Resource) {
@@ -204,15 +253,14 @@ export class TimePickerModel {
   }
 
   transit(from: number, to: number) {
-    if (Math.abs(from - to) > 0) {
+    if (Math.abs((from - to) % 360) > 0) {
       setTimeout(
         () => {
-          var target: number = (360 + to - from) % 360 <= 180 ? (from + 3) % 360 : (from + 357) % 360
+          var target: number = (360 + to - from) % 360 <= 180 ? (from + 363) % 360 : (from + 357) % 360
           this.setRotation(target, false, false)
           this.update()
           this.transit(target, to)
-        },
-        0.98
+        }
       )
     }
 
@@ -231,14 +279,16 @@ export class TimePickerModel {
 
   setRotation(degrees: number, dropped: boolean=false, changeTime: boolean=true) {
     degrees %= 360
-    if (degrees < 0)
-    degrees += 360
+    if (degrees < 0) {
+      degrees += 360
+    }
     this.rotation = degrees
     if (dropped) {
       this.rotation = this.finalRotation(this.rotation)
     }
-    if (!changeTime)
-    return
+    if (!changeTime) {
+      return
+    }
     if (this.format != ElementFormat.FORMAT_MINUTE) {
       this.model.setHour(Math.round(degrees / this.leastCount))
     }

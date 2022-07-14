@@ -24,8 +24,8 @@
       ]
     },
     {
-      "name": "Material_TimePicker",
-      "srcPath": "./Material_TimePicker"
+      "name": "MaterialTimePicker",
+      "srcPath": "./MaterialTimePicker"
     }
   ]
 }
