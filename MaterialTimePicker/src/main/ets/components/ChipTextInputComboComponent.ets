@@ -43,7 +43,7 @@ export struct ChipTextInputComboComponent {
       else {
         var end = new Date()
         var delay: number = end.getTime() - this.hourButtonClickTime.getTime()
-        if (delay < 400) {
+        if (delay < 300) {
           this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
         }
         this.hourButtonClickTime = end
@@ -59,7 +59,7 @@ export struct ChipTextInputComboComponent {
       else {
         var end = new Date()
         var delay: number = end.getTime() - this.minuteButtonClickTime.getTime()
-        if (delay < 400) {
+        if (delay < 300) {
           this.timePickerModel.setInputMethod(InputMethod.TextInputMethod)
         }
         this.minuteButtonClickTime = end
@@ -70,11 +70,9 @@ export struct ChipTextInputComboComponent {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
       Column({ space: '0vp' }) {
         Column() {
-          TextInput({ placeholder:this.timePickerModel.model.hourForDisplay})
+          TextInput({ text:this.timePickerModel.model.hourForDisplay})
             .width('100%')
             .height('100%')
-            .placeholderColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
-            .placeholderFont({size:'50fp'})
             .caretColor(this.TimeStateColors[0])
             .fontSize('50fp')
             .maxLength(2)
@@ -95,8 +93,10 @@ export struct ChipTextInputComboComponent {
         .borderWidth('2vp')
         .borderColor(this.timePickerModel.format != ElementFormat.FORMAT_MINUTE && this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? "#ff5e00ff" : this.borderColor)
         .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
-        .onTouch(() => {
-          this.hourButtonClick()
+        .onTouch((event) => {
+          if(event.type==TouchType.Up) {
+            this.hourButtonClick()
+          }
         })
 
 
@@ -124,9 +124,7 @@ export struct ChipTextInputComboComponent {
 
       Column({ space: '0vp' }) {
         Column() {
-          TextInput({ placeholder:this.timePickerModel.model.minuteForDisplay})
-            .placeholderColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
-            .placeholderFont({size:'50fp'})
+          TextInput({ text:this.timePickerModel.model.minuteForDisplay})
             .width('100%')
             .height('100%')
             .caretColor(this.TimeStateColors[0])
@@ -149,8 +147,10 @@ export struct ChipTextInputComboComponent {
         .borderWidth('2vp')
         .borderColor(this.timePickerModel.format == ElementFormat.FORMAT_MINUTE && this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? "#ff5e00ff" : this.borderColor)
         .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
-        .onTouch(() => {
-          this.minuteButtonClick()
+        .onTouch((event) => {
+          if(event.type==TouchType.Up) {
+            this.minuteButtonClick()
+          }
         })
 
         Text("Minute")
