@@ -25,6 +25,7 @@ export class TimeModel {
   format: TimeFormat
   constructor(hour: number, minute: number, format: TimeFormat) {
     this.format = format
+    this.period=ClockPeriod.AM
     this.setHour(hour)
     this.setMinute(minute)
     this.setHourOfDay(hour)

@@ -21,8 +21,6 @@ import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./Types"
 export struct ChipTextInputComboComponent {
   @Link timePickerModel: TimePickerModel
   @State selectedPeriod: number= 0
-  @State hour:string=""
-  @State minute: string=""
   hourButtonClickTime: Date
   minuteButtonClickTime: Date
   StateColors: ResourceColor[]= ["#ffd8ddff", "#e4e4e4"]
@@ -35,8 +33,6 @@ export struct ChipTextInputComboComponent {
     if (this.timePickerModel.model.period == ClockPeriod.PM) {
       this.selectedPeriod = 1
     }
-    this.hour=this.timePickerModel.model.hourForDisplay
-    this.minute=this.timePickerModel.model.minuteForDisplay
   }
   hourButtonClick(checkDoubleClick:boolean=true){
     this.timePickerModel.setFormat(this.timePickerModel.model.format == TimeFormat.CLOCK_12H ? ElementFormat.FORMAT_12H : ElementFormat.FORMAT_24H)
@@ -74,7 +70,7 @@ export struct ChipTextInputComboComponent {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
       Column({ space: '0vp' }) {
         Column() {
-          TextInput({ text:this.hour})
+          TextInput({ text:this.timePickerModel.hourDisplayText})
             .width('100%')
             .height('100%')
             .caretColor(this.TimeStateColors[0])
@@ -89,9 +85,10 @@ export struct ChipTextInputComboComponent {
             })
             .onChange((value: string) => {
               if (value.length > 0 && Number(value) > this.timePickerModel.maxValue) {
-                this.hour = "0" + value[0]
+                this.timePickerModel.hourDisplayText = "0" + value[0]
+                value=value[0]
               } else {
-                this.hour = value
+                this.timePickerModel.hourDisplayText = value
               }
               this.timePickerModel.model.setHour(Number(value))
 
@@ -134,7 +131,7 @@ export struct ChipTextInputComboComponent {
 
       Column({ space: '0vp' }) {
         Column() {
-          TextInput({ text:this.minute})
+          TextInput({ text:this.timePickerModel.minuteDisplayText})
             .width('100%')
             .height('100%')
             .caretColor(this.TimeStateColors[0])
@@ -149,9 +146,10 @@ export struct ChipTextInputComboComponent {
             })
             .onChange((value: string) => {
               if (value.length > 0 && Number(value) > this.timePickerModel.maxValue) {
-                this.minute = "0" + value[0]
+                this.timePickerModel.minuteDisplayText = "0" + value[0]
+                value=value[0]
               } else {
-                this.minute = value
+                this.timePickerModel.minuteDisplayText = value
               }
               this.timePickerModel.model.setMinute(Number(value))
             })

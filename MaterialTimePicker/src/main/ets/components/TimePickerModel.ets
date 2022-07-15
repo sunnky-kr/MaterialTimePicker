@@ -37,6 +37,8 @@ export class TimePickerModel {
   maxValue: number=12
   format: ElementFormat= ElementFormat.FORMAT_12H
   rotation: number= 0
+  hourDisplayText:string=""
+  minuteDisplayText:string=""
   clockHeight: number= 256
   clockWidth: number= 280
   handLength: number= 75
@@ -79,6 +81,8 @@ export class TimePickerModel {
     }
     this.setRotation(this.getRotation())
     this.update()
+    this.hourDisplayText=this.model.hourForDisplay
+    this.minuteDisplayText=this.model.minuteForDisplay
   }
 
   setDefault() {
@@ -298,6 +302,8 @@ export class TimePickerModel {
     else {
       this.model.setMinute(Math.round(degrees / this.leastCount))
     }
+    this.hourDisplayText=this.model.hourForDisplay
+    this.minuteDisplayText=this.model.minuteForDisplay
   }
 
   finalRotation(degrees: number) {
