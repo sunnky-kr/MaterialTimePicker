@@ -21,8 +21,11 @@ import { ElementFormat, ClockPeriod, TimeFormat, InputMethod } from "./Types"
 export struct ChipTextInputComboComponent {
   @Link timePickerModel: TimePickerModel
   @State selectedPeriod: number= 0
+  hourTextController: TextInputController= new TextInputController()
+  minuteTextController: TextInputController= new TextInputController()
   hourButtonClickTime: Date
   minuteButtonClickTime: Date
+  CursorColors: ResourceColor[]= ["#cfd2f3", "#d9d9d9"]
   StateColors: ResourceColor[]= ["#ffd8ddff", "#e4e4e4"]
   TimeStateColors: ResourceColor[]= ["#ff5e00ff", "#ff282828"]
   periodBGColors: ResourceColor[]= ["#ffd8ddff", Color.White]
@@ -34,9 +37,10 @@ export struct ChipTextInputComboComponent {
       this.selectedPeriod = 1
     }
   }
-  hourButtonClick(checkDoubleClick:boolean=true){
+
+  hourButtonClick(checkDoubleClick: boolean=true) {
     this.timePickerModel.setFormat(this.timePickerModel.model.format == TimeFormat.CLOCK_12H ? ElementFormat.FORMAT_12H : ElementFormat.FORMAT_24H)
-    if(checkDoubleClick) {
+    if (checkDoubleClick) {
       if (this.hourButtonClickTime == undefined || this.hourButtonClickTime == null) {
         this.hourButtonClickTime = new Date()
       }
@@ -50,9 +54,10 @@ export struct ChipTextInputComboComponent {
       }
     }
   }
-  minuteButtonClick(checkDoubleClick:boolean=true) {
+
+  minuteButtonClick(checkDoubleClick: boolean=true) {
     this.timePickerModel.setFormat(ElementFormat.FORMAT_MINUTE)
-    if(checkDoubleClick) {
+    if (checkDoubleClick) {
       if (this.minuteButtonClickTime == undefined || this.minuteButtonClickTime == null) {
         this.minuteButtonClickTime = new Date()
       }
@@ -66,32 +71,33 @@ export struct ChipTextInputComboComponent {
       }
     }
   }
+
   build() {
     Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Start }) {
       Column({ space: '0vp' }) {
         Column() {
-          TextInput({ text:this.timePickerModel.hourDisplayText})
+          TextInput({ text: this.timePickerModel.hourDisplayText, controller: this.hourTextController })
             .width('100%')
             .height('100%')
-            .caretColor(this.TimeStateColors[0])
+            .caretColor(this.timePickerModel.isTextInputEnabled ? this.TimeStateColors[0] : this.CursorColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
+
             .fontSize('50fp')
             .maxLength(2)
             .align(Alignment.Center)
             .fontColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
             .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
-            .enabled(this.timePickerModel.inputMethod == InputMethod.TextInputMethod)
-            .onTouch(()=>{
+            .enabled(this.timePickerModel.isTextInputEnabled)
+            .onTouch(() => {
               this.hourButtonClick(false)
             })
             .onChange((value: string) => {
               if (value.length > 0 && Number(value) > this.timePickerModel.maxValue) {
                 this.timePickerModel.hourDisplayText = "0" + value[0]
-                value=value[0]
+                value = value[0]
               } else {
                 this.timePickerModel.hourDisplayText = value
               }
               this.timePickerModel.model.setHour(Number(value))
-
             })
         }
         .width('100%')
@@ -101,7 +107,7 @@ export struct ChipTextInputComboComponent {
         .borderColor(this.timePickerModel.format != ElementFormat.FORMAT_MINUTE && this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? "#ff5e00ff" : this.borderColor)
         .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?1:0])
         .onTouch((event) => {
-          if(event.type==TouchType.Up) {
+          if (event.type == TouchType.Up) {
             this.hourButtonClick()
           }
         })
@@ -131,23 +137,23 @@ export struct ChipTextInputComboComponent {
 
       Column({ space: '0vp' }) {
         Column() {
-          TextInput({ text:this.timePickerModel.minuteDisplayText})
+          TextInput({ text: this.timePickerModel.minuteDisplayText, controller: this.minuteTextController })
             .width('100%')
             .height('100%')
-            .caretColor(this.TimeStateColors[0])
+            .caretColor(this.timePickerModel.isTextInputEnabled ? this.TimeStateColors[0] : this.CursorColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
             .maxLength(2)
             .fontSize('50fp')
             .align(Alignment.Center)
             .fontColor(this.TimeStateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
             .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
-            .enabled(this.timePickerModel.inputMethod == InputMethod.TextInputMethod)
-            .onTouch(()=>{
+            .enabled(this.timePickerModel.isTextInputEnabled)
+            .onTouch(() => {
               this.minuteButtonClick(false)
             })
             .onChange((value: string) => {
               if (value.length > 0 && Number(value) > this.timePickerModel.maxValue) {
                 this.timePickerModel.minuteDisplayText = "0" + value[0]
-                value=value[0]
+                value = value[0]
               } else {
                 this.timePickerModel.minuteDisplayText = value
               }
@@ -161,7 +167,7 @@ export struct ChipTextInputComboComponent {
         .borderColor(this.timePickerModel.format == ElementFormat.FORMAT_MINUTE && this.timePickerModel.inputMethod == InputMethod.TextInputMethod ? "#ff5e00ff" : this.borderColor)
         .backgroundColor(this.StateColors[this.timePickerModel.format == ElementFormat.FORMAT_MINUTE?0:1])
         .onTouch((event) => {
-          if(event.type==TouchType.Up) {
+          if (event.type == TouchType.Up) {
             this.minuteButtonClick()
           }
         })
@@ -208,7 +214,6 @@ export struct ChipTextInputComboComponent {
             this.selectedPeriod = 1
             this.timePickerModel.model.setPeriod(ClockPeriod.PM)
           })
-
       }
       .width('52vp')
       .height('80vp')

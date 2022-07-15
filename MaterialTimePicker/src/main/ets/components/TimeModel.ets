@@ -25,7 +25,7 @@ export class TimeModel {
   format: TimeFormat
   constructor(hour: number, minute: number, format: TimeFormat) {
     this.format = format
-    this.period=ClockPeriod.AM
+    this.period = ClockPeriod.AM
     this.setHour(hour)
     this.setMinute(minute)
     this.setHourOfDay(hour)
@@ -44,7 +44,7 @@ export class TimeModel {
     else {
       this.hour = hour % 12 + (this.period == ClockPeriod.PM ? 12 : 0)
     }
-    this.hourForDisplay=this.formattedHour()
+    this.hourForDisplay = this.formattedHour()
   }
 
   public setHourOfDay(hour: number) {
@@ -57,7 +57,7 @@ export class TimeModel {
     hour %= 24
     this.period = hour >= 12 ? ClockPeriod.PM : ClockPeriod.AM
     this.hour = hour
-    this.hourForDisplay=this.formattedHour()
+    this.hourForDisplay = this.formattedHour()
   }
 
   public getHourForDisplay() {
@@ -92,7 +92,7 @@ export class TimeModel {
     if (minute >= 0 && minute <= 60) {
       this.minute = minute % 60
     }
-    this.minuteForDisplay=this.formattedMinute()
+    this.minuteForDisplay = this.formattedMinute()
   }
 
   public getTimeForDisplay() {

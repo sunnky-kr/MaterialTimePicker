@@ -45,19 +45,20 @@ export struct MaterialTimePicker {
             .fontWeight(FontWeight.Bolder)
             .fontSize('20fp')
         }
-        .width('95%')
+        .width('90%')
         .height('100%')
 
         Row() {
           Text("x")
             .fontColor(this.parentModel.titleFontColor)
             .fontSize('30fp')
+            .padding('5vp')
             .onClick(() => {
               this.parentModel.onDismiss()
               this.controller.close()
             })
         }
-        .width('5%')
+        .width('10%')
         .height('100%')
       }
       .alignItems(VerticalAlign.Bottom)
@@ -90,6 +91,7 @@ export struct MaterialTimePicker {
           .height('100%')
           .width('50%')
           .alignItems(HorizontalAlign.Start)
+
           Column() {
             Row({ space: '8vp' }) {
               Button("CANCEL")

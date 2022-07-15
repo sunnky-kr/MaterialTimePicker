@@ -32,13 +32,14 @@ export class TimePickerModel {
     [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
     ['00', '05', 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]]
   private LeastCountOptions: number[]= [30, 15, 6]
-  private maxValueOptions: number[]=[12,23,59]
+  private maxValueOptions: number[]= [12, 23, 59]
   private leastCount: number= 30
-  maxValue: number=12
+  maxValue: number= 12
   format: ElementFormat= ElementFormat.FORMAT_12H
   rotation: number= 0
-  hourDisplayText:string=""
-  minuteDisplayText:string=""
+  hourDisplayText: string= ""
+  minuteDisplayText: string= ""
+  isTextInputEnabled: boolean= false
   clockHeight: number= 256
   clockWidth: number= 280
   handLength: number= 75
@@ -81,8 +82,8 @@ export class TimePickerModel {
     }
     this.setRotation(this.getRotation())
     this.update()
-    this.hourDisplayText=this.model.hourForDisplay
-    this.minuteDisplayText=this.model.minuteForDisplay
+    this.hourDisplayText = this.model.hourForDisplay
+    this.minuteDisplayText = this.model.minuteForDisplay
   }
 
   setDefault() {
@@ -199,6 +200,7 @@ export class TimePickerModel {
     if (this.inputMethod != method) {
       this.inputMethod = method
       this.updateHeight()
+      this.isTextInputEnabled = method == InputMethod.TextInputMethod
     }
   }
 
@@ -278,7 +280,7 @@ export class TimePickerModel {
       this.format = format
       this.elements = this.ElementOptions[format]
       this.leastCount = this.LeastCountOptions[format]
-      this.maxValue=this.maxValueOptions[format]
+      this.maxValue = this.maxValueOptions[format]
       var target: number = this.getRotation()
       this.transit(this.rotation, target)
     }
@@ -302,8 +304,8 @@ export class TimePickerModel {
     else {
       this.model.setMinute(Math.round(degrees / this.leastCount))
     }
-    this.hourDisplayText=this.model.hourForDisplay
-    this.minuteDisplayText=this.model.minuteForDisplay
+    this.hourDisplayText = this.model.hourForDisplay
+    this.minuteDisplayText = this.model.minuteForDisplay
   }
 
   finalRotation(degrees: number) {
