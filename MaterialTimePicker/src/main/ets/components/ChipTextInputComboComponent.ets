@@ -84,7 +84,11 @@ export struct ChipTextInputComboComponent {
               this.hourButtonClick(false)
             })
             .onChange((value: string) => {
+              if(value.length>0 && Number(value)>this.timePickerModel.maxValue) {
+                value = value[0]
+              }
               this.timePickerModel.model.setHour(Number(value))
+
             })
         }
         .width('100%')
@@ -138,6 +142,9 @@ export struct ChipTextInputComboComponent {
               this.minuteButtonClick(false)
             })
             .onChange((value: string) => {
+              if(value.length>0 && Number(value)>this.timePickerModel.maxValue) {
+                value = value[0]
+              }
               this.timePickerModel.model.setMinute(Number(value))
             })
         }
