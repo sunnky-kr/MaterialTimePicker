@@ -3,21 +3,21 @@
 Time pickers help users select and set a specific time.
 ## Dependencies
 ****
-For using Material_TimePicker in your app, add the below dependency in the entry/package.json  
+For using MaterialTimePicker in your app, add the below dependency in the entry/package.json  
 ```
 "dependencies": {
-    "@ohos/material_timepicker": "file:../Material_TimePicker"
-  }
+    "@ohos/materialtimepicker": "file:../MaterialTimePicker"
+ }
 ```
 Add dependency command with
 ```
-npm i @ohos/material_timepicker
+npm i @ohos/materialtimepicker
 ```
 ## Usage instructions
 ****
 Import these components and data types
 ```
-import { MaterialTimePicker, TimeFormat, InputMethod } from "@ohos/material_timepicker"
+import { MaterialTimePicker, TimeFormat, InputMethod } from "@ohos/materialtimepicker"
 ```
 ## Screenshots
 ****
@@ -29,7 +29,7 @@ import { MaterialTimePicker, TimeFormat, InputMethod } from "@ohos/material_time
 ### Imports
 Import the following components and data types
 ```
-import { MaterialTimePicker, TimeFormat, InputMethod } from "@ohos/material_timepicker"
+import { MaterialTimePicker, TimeFormat, InputMethod } from "@ohos/materialtimepicker"
 ```
 ### Code
 To pickup from the Time Picker
